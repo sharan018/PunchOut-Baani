@@ -1,0 +1,88 @@
+.label-hidden label {
+    display: none;
+}
+
+th {
+    background: #f4f4f4;
+}
+
+.img-zoom-container-inner {
+    width: 100%;
+    display: block;
+    padding: 1rem;
+}
+
+.img-zoom-container-inner img {
+    width: 100%;
+    display: block;
+}
+
+.img-zoom-container-inner .myimage {
+    border: 1px solid #d4d4d4;
+}
+
+.img-zoom-container {
+    position: relative;
+    display: flex; /* Use flexbox instead of -webkit-box */
+}
+
+.img-zoom-lens {
+    position: absolute;
+    /* Set the size of the lens: */
+    width: 50px;
+    height: 50px;
+    cursor: crosshair;
+}
+
+.img-zoom-result {
+    box-shadow: 0 0 7px 2px rgba(23, 84, 116, 0.18);
+    border: 1px solid #d4d4d4;
+    /* Set the size of the result div: */
+    width: 280px;
+    height: 280px;
+    position: relative;
+    z-index: 4;
+    margin: 1rem;
+}
+
+.slds-input,
+.slds-select {
+    height: 22px;
+    min-height: 22px;
+}
+
+.slds-select_container:before,
+.slds-select_container:before {
+    top: 6px !important;
+}
+
+.slds-select_container:after,
+.slds-select_container:after {
+    bottom: 4px !important;
+}
+
+.geeks {
+    /* width: 280px;
+    height: 280px; */
+    overflow: hidden;
+    margin:1rem;
+}
+
+.geeks img {
+    width: 100%;
+    transition: 0.5s all ease-in-out;
+}
+
+.geeks:hover img {
+    transform: scale(2);
+}
+.box-title {
+    display: flex;
+    position: relative;
+    top: -26px;
+    background: white;
+    padding: 0 10px;
+    color: #a90533;
+    margin-left: 10px;
+    font-weight:bold;
+}

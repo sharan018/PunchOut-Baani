@@ -1,0 +1,387 @@
+<template>
+    <!-- <template if:false={closePopup}> -->
+    <div class={spinnerClass}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </div>
+    <template if:true={orderDetailFlag}>
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open" >
+            <div class="slds-modal__container" >
+                <div class="slds-modal__header slds-p-around_x-small">
+                    <button class="slds-button slds-modal__close slds-button_icon-inverse" title={Close} onclick={closeModal}>
+                        X<span class="slds-assistive-text">{Cancel}</span>
+                    </button>
+                    
+                    <h2 class="slds-text-heading_medium" style="font-size:17px;">
+                        {label}
+                    </h2>
+             
+    <h2 class="slds-text-heading--medium" style="font-size:17px;">
+        <template if:true={sourceOrder}>
+            {Confirm_Purchase_Order}
+        </template>
+        <template if:false={sourceOrder}>
+            {Confirm_Sales_Order}
+        </template>
+    </h2>
+            </div>
+            <!-- Bill to and ship adress starts-->
+            <div class="slds-modal__content slds-p-around--x-small"> 
+                <div class="slds-box slds-m-around--small1">
+                    <h2 class="box-title" style="width:62px">{Details}</h2>
+                <div>
+                      <template for:each={displayCartDetail} for:item="cartDetail" for:index="ind">
+                               
+                                <div class="slds-border_bottom" key={cartDetail.Id}>
+                                <lightning-layout multiple-rows key={cartDetail.Id}>
+                                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="1.5" >
+                                        <img src={cartDetail.Productimage} alt="Product" width="110" />
+                                        
+                                            <template if:true={isSelectedTabLabelsAndTickets}>
+                                                <template if:true={cartDetail.noVarProd}>
+                                                    <lightning-button-icon icon-name="utility:preview" size="large" onclick={viewCareLabel} value={cartDetail.Id} name={ind} variant="bare" alternative-text={label.View} title={label.View} icon-class="dark"></lightning-button-icon>
+                                                </template>
+                                            </template>
+                                       
+
+                                    </lightning-layout-item>
+                                
+                                    
+                                 <lightning-layout-item size="12" small-device-size="6" medium-device-size="3.5" >
+                           
+                               
+                                     
+                                    <p>
+                                        <b style="display:inline-block;">Mainetti Model Code</b>
+                                        <span style="color:#a41f34;">: {cartDetail.PSBP}</span>
+                                    </p>
+                                    <p class="slds-truncate">
+                                        <b style="display:inline-block;">Description</b>: {cartDetail.Description} from {cartDetail.retailerName}
+                                    </p>
+                                    <template if:true={cartDetail.fullboxQty}>
+                                        <p>
+                                            <b style="display:inline-block;">Color</b>: {cartDetail.Color}
+                                        </p>
+                                        <p>
+                                            <b style="display:inline-block;">Size</b>: {cartDetail.Size}
+                                        </p>
+                                        <p>
+                                            <b style="display:inline-block;">Box Quantity</b>: {cartDetail.boxquantity}
+                                        </p>
+                                        <!-- <template if:true={cartDetailStatusActive}> -->
+                                            <p><b style="display:inline-block;">Status </b>: {cartDetail.Status}</p>
+                                        <!-- </template> -->
+                                                <template if:true={cartDetailStatusInactive}>
+                                            <p><b style="display:inline-block;">Status </b><span style="color:#a41f34;">: {cartDetail.Status}</span></p>
+                                                </template>
+                                    </template>
+                                       
+                                </lightning-layout-item>
+                            
+                            <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" >
+                            
+                                <template if:true={cartDetail.fullboxQty}>
+                                    <lightning-input  class="slds-m-left_large slds-m-right_large " type="number" name={ind} label="Quantity" data-id={cartDetail.Id} value={cartDetail.Quantity} onchange={calculateBoxQty} disabled=true></lightning-input>
+                                </template>
+                                <template if:false={cartDetail.fullboxQty}>
+                                    <lightning-input class="slds-m-left_large slds-m-right_large " type="number" name={ind} label="Quantity" data-id={cartDetail.Id} value={cartDetail.Quantity} onchange={calculateBoxQty} disabled=true></lightning-input>
+                                </template>
+                                    </lightning-layout-item>
+                            
+                                    <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" >
+                        
+                            <lightning-input  class="slds-m-left_large slds-m-right_large " type="text" label="Price" name={ind} value={cartDetail.TotalPriceByCurrency} disabled=true></lightning-input>
+                                    
+                            </lightning-layout-item> 
+                           
+                       
+                            </lightning-layout>
+                                
+                        </div>
+                               
+
+                            </template>
+     </div>
+     <br/>
+
+     <!-- <lightning-layout multiple-rows>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+            
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2   " >
+            
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+            
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+            
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+          
+        </lightning-layout-item>
+    </lightning-layout> -->
+
+                    <div class="slds-grid slds-wrap slds-gutters" style="margin-top:0px;">
+                        <lightning-layout multiple-rows>
+                            
+                        <template if:true={sourceOrder}>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                                <div class="slds-m-horizontal_small">
+                                <lightning-combobox name="select1" value={salesOrderObj.Company__c} label="Order To Company" options={companyOptions} onchange={handleOrderToCompany} required=true></lightning-combobox>
+                            </div>
+                            </lightning-layout-item>
+                           
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                                <div class="slds-m-horizontal_small">
+                                <lightning-combobox name="select1" value={salesOrderObj.CurrencyIsoCode} label="Preferred Currency" options={currencyListOptions} onchange={handlePreferredCurrency} required=true></lightning-combobox>
+                               </div>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={sourceOrder}>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                                <div class="slds-m-horizontal_small">
+                                <div class="slds-form-element__label">
+                                    <abbr class="slds-required" title="required">* </abbr>{Order_To_Company}
+                                </div>
+                                <div class="slds-box slds-box_x-small box-input slds-text-align_center disabled">
+                                    <div class="slds-form-element__control slds-grow slds-truncate">
+                                        <lightning-formatted-text value={companyName} title={companyName} class="slds-truncate"></lightning-formatted-text>
+                                    </div>
+                                </div>
+                            </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                                    <div class="slds-m-horizontal_small">
+                                    <div class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">* </abbr>{Preferred_Currency}
+                                    </div>
+                                    <div class="slds-box slds-box_x-small box-input slds-text-align_center disabled">
+                                        <div class="slds-form-element__control slds-grow slds-truncate">
+                                            <lightning-formatted-text value={currencyName} title={currencyName} class="slds-truncate"></lightning-formatted-text>
+                                        </div>
+                                    </div>
+                                </div>
+                                </lightning-layout-item>
+                               
+                        </template>
+
+                    
+                
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class="slds-truncate">
+                                <div class="slds-m-horizontal_small">
+                                <lightning-input type="date" name="ExpectedDeliveryDate" label={Expected_Ex_Factory_Date} message-when-value-missing="Complete this field" value={salesOrderObj.Expected_Delivery_Date__c} title={salesOrderObj.Expected_Delivery_Date__c} onchange={changeDate} required></lightning-input>
+                            </div>
+                            </div>
+                        
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                        <template if:true={sourceOrder}>
+                            <div class="slds-m-horizontal_small">
+                                <div class="slds-form-element__label">{Retailer_PO}</div>
+                                <div class="slds-box slds-box_x-small slds-form-element__control slds-grow box-input slds-truncate disabled">
+                                    <lightning-formatted-text value={salesOrderObj.Order_Number__c} title={salesOrderObj.Order_Number__c} ></lightning-formatted-text>
+                                </div>
+                                </div>
+                        </template>
+                        <template if:false={sourceOrder}>
+                            <div class="slds-m-horizontal_small">
+                                <lightning-input type="text" label={Retailer_PO} value={salesOrderObj.Order_Number__c} required={retailerCheck} onchange={handleRetailerPo}></lightning-input>
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                        <div class="slds-m-horizontal_small">
+                            <lightning-input type="text" name="Factory Internal PO Number" label={Factory_Internal_PO} value={salesOrderObj.Factory_Internal_PO__c} title={salesOrderObj.Factory_Internal_PO__c} ></lightning-input>
+                        </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class="slds-m-horizontal_small">
+                            <lightning-combobox name="select1" label={Delivery_Instruction} value={selectedOption} options={deliveryInstructionOptions} required onchange={handleDeliveryInst}></lightning-combobox>
+                        </div>
+                        </lightning-layout-item>
+                        </lightning-layout>
+                        </div>
+
+                </div>
+
+                <br/>
+                <div class="slds-box slds-m-around--small1">
+                    <h2 class="box-title" >{Retailer_Information}</h2>
+                    <div  style="margin-top:-20px;">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class="slds-m-horizontal_small">
+                                <div class="slds-form-element__label">{Retailer_Code}</div>
+                                <div class="slds-box slds-box_x-small slds-form-element__control slds-grow box-input slds-truncate disabled">
+                                    <lightning-formatted-text value={retailerName} title={retailerName}></lightning-formatted-text>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class="slds-m-horizontal_x-small">
+                                <div class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{Supplier_Vendor_Code}</div> 
+                                <template if:true={supplierUnMask}>
+                                    <lightning-input name="input1" value={salesOrderObj.Supplier_Code__c} variant="label-hidden" required=true></lightning-input>
+                                </template>
+                                <template if:false={supplierUnMask}>
+                                    <div class="slds-box slds-box_x-small slds-form-element__control slds-grow box-input disabled">
+                                    <lightning-formatted-text value={salesOrderObj.Supplier_Code__c} title={salesOrderObj.Supplier_Code__c}></lightning-formatted-text>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class=" slds-m-horizontal_x-small">
+                                <div class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{Manufacturer_Factory_POF_Code}</div>
+                                <template if:true={manufacturerUnMask}>
+                                    <lightning-input name="input1" value={salesOrderObj.Manufacturer_Code__c} variant="label-hidden" required=true></lightning-input>
+                                </template>
+                                <template if:false={manufacturerUnMask}>
+                                    <div class="slds-box slds-box_x-small slds-form-element__control box-input slds-grow disabled">
+                                     <lightning-formatted-text value={salesOrderObj.Manufacturer_Code__c} title={salesOrderObj.Manufacturer_Code__c}></lightning-formatted-text>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+                            <div class="slds-m-horizontal_x-small">
+                            <lightning-combobox name="select1" label="Brand Label" value={selectedBrandLabel} options={brandLabelListOptions} required={brandLabelCheck} onchange={handleBrandLabelList}></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+                            <div class="slds-m-horizontal_x-small">
+                            <lightning-combobox name="select1" label="Division" value={selectedDivision} options={divisionListOptions} required={divisionCheck} onchange={handleDivisionList}></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+                            <div class="slds-m-horizontal_x-small">
+                            <lightning-combobox name="select1" label="Season" value={selectedSeason} options={seasonListOptions} required={seasonCheck} onchange={handleSeasonOption}></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+                            <div class="slds-m-horizontal_x-small">
+                            <lightning-combobox name="select1" label="Season Year" value={selectedSeasonYear} options={seasonYearListOptions} required={seasonYearCheck} onchange={handleSeasonYearOption}></lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+
+                   
+                    </lightning-layout>
+                 </div>
+                </div> 
+                <br/>
+
+                <div class="slds-box">
+                    <h2 class="box-title" style="width:200px;">{Customer_comment_and_Remarks}</h2>
+                    <div  style="margin-top:-20px;">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class="slds-m-horizontal_small">                          
+                            <lightning-textarea rows="1" name="Forwarder/Transportation Details" label="Forwarder Transportation Details" value={salesOrderObj.Transportation_Details__c} title={salesOrderObj.Transportation_Details__c} onchange={handleForwarderTransportationDetails}></lightning-textarea>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class ="slds-m-horizontal_small">
+                            <lightning-textarea rows="1" name="Shipping Mark" label="Shipping Mark Special Instruction" value={salesOrderObj.Shipping_Mark__c} title={salesOrderObj.Shipping_Mark__c} onchange={handleShippingMark}></lightning-textarea>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" >
+                            <div class ="slds-m-horizontal_small">
+                            <lightning-textarea rows="1" name="Remarks" label="remarks" value={salesOrderObj.Remarks__c} title={salesOrderObj.Remarks__c} required={remarksCheck} onchange={handleRemark}></lightning-textarea>
+                        </div>
+                    </lightning-layout-item>
+                    </lightning-layout>
+                    </div>
+                </div>
+                <br/>
+                <lightning-layout>
+                    <template if:true={OldShipTo}>
+                        <lightning-layout-Item class="slds-p-right_x-small" size="12" small-device-size="12" medium-device-size="4">
+                            <div class="slds-box slds-m-bottom_large">   
+                                <h2 class="box-title" style="width:85px">Old Ship To</h2>				
+                                <c-sales-order-address-table-lwc address-list={ShipAddressListOld} address-type="Bill"></c-sales-order-address-table-lwc>
+                            </div>
+                        </lightning-layout-Item>
+                    </template>
+
+                        <lightning-layout-Item class="slds-p-left_x-small" size="12" small-device-size="12" medium-device-size="4">
+                            <div class="slds-box slds-m-bottom_large">
+                                <h2 class="box-title" style="width:85px">{Ship_To}</h2>
+                                <c-sales-order-address-table-lwc address-list={shipAddressList} address-type="Ship"></c-sales-order-address-table-lwc>
+                            </div>
+                        </lightning-layout-Item>
+                    </lightning-layout >
+            </div> 
+            <div class="slds-modal__footer slds-p-around--x-small">
+                <!-- <lightning-button  variant="destructive" label="PDF" icon-name="utility:file" onclick={openPDF}></lightning-button>&nbsp;&nbsp;
+                <lightning-button  label="Confirm Order" variant="destructive" icon-name="utility:package_org" onclick={confirmOrder}></lightning-button>&nbsp;&nbsp; -->
+                <template if:true={OldShipTo}>
+                    <h1 class="slds-col slds-text-align_left" style="color:#a41f34;" >Notification:&nbsp; ShipTo Address is Changed</h1>
+                </template>
+                <lightning-button  label="Punch Out" variant="destructive" icon-name="utility:package_org" onclick={confirmOrder}></lightning-button>&nbsp;&nbsp;
+                <lightning-button  label="Cancel" variant="destructive-text" icon-name="utility:close" onclick={closeModal}></lightning-button>
+                
+            </div>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={popdfFlag}>
+        <div class="demo-only">
+            <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="slds-modal__container" style="width: 50%;font-size:11px;">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeBoxRqdModal}>
+                            <lightning-icon icon-name="action:close" size="x-small" alternative-text="Close"></lightning-icon>
+                            <span class="slds-assistive-text" >Close</span>
+                        </button>
+                        <h2 class="slds-text-heading_medium slds-hyphenate" style="color: #a90533;font-size:17px;">View PDF</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" > 
+                        <div class="table-container">
+                            <table class={tableClass}>
+                                <thead>
+                                    <tr class="slds-text-title_caps slds-gray">
+                                        <th><div class="slds-truncate">Retailer PO Number</div></th>
+                                        <th><div class="slds-truncate">Retailer Name</div></th>
+                                        <th><div class="slds-truncate">FACTORY CODE</div></th>
+                                        <th><div class="slds-truncate">Print</div></th>
+                                    </tr>
+                                </thead>
+                                <template for:each={comfirmPOList} for:item="po" for:index="iPO">
+                                    <tr key={po.POwrap.Id} style="border-top:1px solid gray;">
+                                        <td>  
+                                            <lightning-output-field value={po.POwrap.Order_Number__c}></lightning-output-field>
+                                        </td>
+                                        <td>  
+                                            <lightning-output-field value={po.POwrap.Retailer_Code1__r.Name}></lightning-output-field>
+                                        </td>
+                                        <td>  
+                                            <lightning-output-field value={po.POwrap.Supplier_Code__c}></lightning-output-field>
+                                        </td>
+                                        <td style="border-right:1px solid gray;"> 
+                                            <lightning-button variant="destructive" label="PDF" icon-name="utility:file" value={po.POwrap.Id} onclick={printPOPDF}></lightning-button> 
+                                        </td> 
+                                    </tr>
+                                </template>
+                            </table>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button class="slds-button slds-button_brand" icon-name="utility:close" onclick={closeBoxRqdModal} label="Cancel"></lightning-button>
+                    </footer>
+                </div>
+            </section>
+        </div>            
+    </template>
+    <div class="slds-backdrop slds-backdrop--open"></div>
+
+</template>
+ <!-- <template if:true={closePopup}>
+    <c-catalog-shipping-cmp-lwc -get-address={addressPopUpFlag}></c-catalog-shipping-cmp-lwc>
+</template>  -->
+<!-- </template> -->

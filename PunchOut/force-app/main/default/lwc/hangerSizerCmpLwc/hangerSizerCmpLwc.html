@@ -1,0 +1,275 @@
+<template>
+    <template if:true={showQuickview}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" >
+                
+                <header class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate" style="color:#a90533;font-weight:bold;">{loopSize.Name}</h1>
+                </header>
+              
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-grid slds-gutters slds-p-horizontal_medium">
+                        <lightning-layout multiple-rows key={cartDetail.Id}>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="3" >
+                                <template if:true={selectedSizerListSize}>
+                                    <div  class="geeks" >
+                                        <img  alt="Zoom Image on Mouseover" src={loopSize.Product_image_url__c} ></img>
+                                        <!-- <div class="img-2" style="background: url(tempValue.value.proImgURL) no-repeat #FFF;"></div> -->
+                                    </div>
+                                </template>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="9" >
+                                <template if:true={selectedSizerListSize}>
+                                        <div  class="slds-tile__detail">
+                                            <dl class="slds-list_horizontal slds-wrap">
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="First Label">Mainetti Model Code</dt>
+                                                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title={loopSize.Name}>{loopSize.Name}</dd>
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="Second Label">Prod Description</dt>
+                                                <dd class="slds-item_detail slds-truncate1 slds-m-bottom_x-small" title="Description for second label">{loopSize.Description__c}</dd>
+                                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="Second Label">Customer Ref Model</dt>
+                                                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for second label">{loopSize.Customer_Ref_Model__c}</dd>
+                                            </dl>
+                                        </div>
+                                </template>
+
+                            <div  class="slds-tile__detail">
+                                <dl class="slds-list_horizontal slds-wrap">
+                                    <template if:true={colorChartPriority}>
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Color List </dt>
+                                        <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for first label">
+                                            <select class="label-hidden slds-size_1-of-2" variant="label-hidden"  onchange={onSelectColor}>
+                                                <template for:each={colorlist} for:item="color">
+                                                    <option key={color} value={color} selected={selectedColor}>{color}</option>
+                                                </template>
+                                            </select>
+                                        </dd>
+                        
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Size List</dt>
+                                        <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small">
+                                          <select class="label-hidden slds-size_1-of-2" variant="label-hidden" onchange={onSelectSize}>
+                                            <template for:each={sizelist} for:item="value">
+                                               <option key={value} value={value} selected={selectedSize}>{value}</option>
+                                            </template>
+                                          </select>
+                                        </dd>
+                        
+                                    </template>
+                        
+                                    <template if:false={colorChartPriority}>
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Size List</dt>
+                                        <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small">
+                                          <select class="label-hidden slds-size_1-of-2"  onchange={onSelectSizeForSizeDepend}>
+                                            <template for:each={sizelist} for:item="list">
+                                               <option key={list} value={list} selected={selectedSize}>{list}</option>
+                                            </template>
+                                          </select>
+                                        </dd>
+                        
+                                        <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Color List </dt>
+                                        <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for first label">
+                                            <select class="label-hidden slds-size_1-of-2"  onchange={onSelectColorForSizeDepend}>
+                                                <template for:each={colorlist} for:item="value">
+                                                    <option key={value} value={value} selected={selectedColor}>{value}</option>
+                                                </template>
+                                            </select>
+                                        </dd>
+                        
+                                    </template>
+                                </dl>
+                            </div>
+                        
+                    </lightning-layout-item>
+                </lightning-layout>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_destructive " onclick={cancel}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+ 
+
+    <template if:false={showQuickview}>
+        <div style="margin-left: 10%;">
+            <lightning-layout multiple-rows key={cartDetail.Id}>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="3" >
+                    <template if:true={selectedSizerListSize}>
+                      <a class="product-item-photo"  name={loopSize.Id}>
+                        <img src={loopSize.Product_image_url__c} ></img>
+                      </a>
+                    </template>
+                </lightning-layout-item>
+            
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="9" >
+                      <template if:true={selectedSizerListSize}>
+                        <div  class="slds-tile__detail">
+                            <dl class="slds-list_horizontal slds-wrap">
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="First Label">Mainetti Model Code</dt>
+                                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small " title={loopSize.Name}>{loopSize.Name}</dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="Second Label">Prod Description</dt>
+                                <dd class="slds-item_detail slds-truncate1 slds-m-bottom_x-small" title="Description for second label">{loopSize.Description__c}</dd>
+                                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" title="Second Label">Customer Ref Model</dt>
+                                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for second label">{loopSize.Customer_Ref_Model__c}</dd>
+                            </dl>
+                        </div>
+                    </template>
+                
+
+
+              <div class="slds-tile__detail">
+                <dl class="slds-list_horizontal slds-wrap">
+            <template if:true={colorChartPriority}>
+                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Color List </dt>
+                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for first label">
+                    <select class="label-hidden " variant="label-hidden"  onchange={onSelectColor}>
+                        <template for:each={colorlist} for:item="color">
+                            <option key={color} value={color} selected={selectedColor}>{color}</option>
+                        </template>
+                    </select>
+                </dd>
+
+                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Size List</dt>
+                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small">
+                  <select class="label-hidden " variant="label-hidden" onchange={onSelectSize}>
+                    <template for:each={sizelist} for:item="value">
+                       <option key={value} value={value} selected={selectedSize}>{value}</option>
+                    </template>
+                  </select>
+                </dd>
+
+            </template>
+
+            <template if:false={colorChartPriority}>
+                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Size List</dt>
+                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small">
+                  <select class="label-hidden slds-size_1-of-2"  onchange={onSelectSizeForSizeDepend}>
+                    <template for:each={sizelist} for:item="list">
+                       <option key={list} value={list} selected={selectedSize}>{list}</option>
+                    </template>
+                  </select>
+                </dd>
+
+                <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Color List </dt>
+                <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" title="Description for first label">
+                    <select class="label-hidden slds-size_1-of-2"  onchange={onSelectColorForSizeDepend}>
+                        <template for:each={colorlist} for:item="value">
+                            <option key={value} value={value} selected={selectedColor}>{value}</option>
+                        </template>
+                    </select>
+                </dd>
+
+            </template>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small" >Enter a Quantity</dt>
+                    <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small" >
+                        <lightning-input type="number"  class="slds-size_1-of-2" variant="label-hidden"  onchange={handleQuantity} name="input1"  disabled={isActive}></lightning-input>
+                    </dd>
+
+                <template if:true={selectedSizerListSize}>
+                    <template if:true={loopSize.Full_Box_Order__c}>
+                
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small">Box Quantity</dt>
+                        <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small">{loopSize.BOX_QTY__c}</dd>
+                    
+                    </template>
+                </template>
+
+                <template if:true={isActive}>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small"> <h2 style="color:rgb(164, 31, 52);"><b>Note </b></h2></dt> 
+                    <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small"> <h2 style="color:rgb(164, 31, 52);">"Selected Color" + "Size combination already added" <br></br>"in Cart Go to View Cart to update quantity"</h2></dd>
+                </template>  
+
+
+                 <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_x-small slds-m-top_x-small ">
+                    <template if:true={hangersizer}>               
+                    <lightning-button variant="destructive" icon-name="utility:back"  label="Back" title="Back" onclick={changeProd}></lightning-button>                
+                    </template>
+                 </dt>
+                    <dd class="slds-item_detail slds-truncate slds-m-bottom_x-small slds-m-top_x-small">
+                    <lightning-button variant="destructive" icon-name="utility:add" label="Add"  onclick={addToList} ></lightning-button></dd>
+               
+                 </dl>
+              </div>
+                </lightning-layout-item>
+
+        </lightning-layout>
+            
+        </div>
+
+
+
+
+
+        <template if:true={hangerListDetail}>
+            
+
+            <div class="slds-scrollable slds-m-around_medium">
+                <lightning-card variant="Narrow" title="Product List">
+                    <!-- <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_striped slds-max-medium-table_stacked-horizontal"> 
+                        <tr>
+                            <th>Mainetti Model</th>
+                            <th>Customer Ref Model</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th style="width:5%;">Action</th>
+                        </tr>
+                        <template for:each={selectedSizer} for:item="val" for:index="index">
+                            <tr key={val}> 
+                                <td>{val.prodname}</td>
+                                <td>{val.custRefModel}</td>
+                                <td>{val.color}</td>
+                                <td>{val.size}</td>
+                                <td>{val.quantity}</td>
+                                <td> 
+                                    <lightning-button-icon icon-name="utility:close" size="medium" onclick={removeRow} data-index={index} variant="bare"  title="Remove" icon-class="dark"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                    </table> -->
+
+                    <div style="height: 300px;">
+                        <lightning-datatable
+                                key-field="id"
+                                data={selectedSizer}
+                                hide-checkbox-column="true"
+                                class="slds-max-medium-table_stacked"
+                                onrowaction={callRowAction}
+                                columns={columns}>
+                        </lightning-datatable>
+                    </div> 
+                </lightning-card>
+            
+       
+                <footer class="slds-card__footer " style="margin-top:0;">
+                    <lightning-layout multiple-rows >
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" >
+                        <div class="slds-text-align_left">
+                            <template if:true={disaplaySizerTxt}>
+                                <h1><b style="color:rgb(164, 31, 52);">Please click Add to Cart to add all the selected Sizers to CART</b></h1>
+                            </template>
+                            <template if:true={disaplayGloveTxt}>
+                                <h1><b style="color:rgb(164, 31, 52);">Please click Add to Cart to add all the selected Glove to CART</b></h1>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                    <lightning-layout multiple-rows >
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" >
+                        <div class="slds-text-align_center">
+                            <lightning-button variant="destructive" icon-name="utility:insert_template" label="ADD TO CART" title="ADD TO CART" onclick={addTocart}></lightning-button>
+                        </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                </footer>
+            </div>
+       
+        </template>
+    </template>
+
+
+</template>

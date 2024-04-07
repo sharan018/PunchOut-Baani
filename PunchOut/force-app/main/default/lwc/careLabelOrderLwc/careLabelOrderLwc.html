@@ -1,0 +1,411 @@
+<template>
+    <template if:false={catalogVertical}>
+ <template if:true={careLabelOrder}>
+    <article class="slds-box slds-m-around_none slds-p-around_none">
+        <div class="slds-card__header slds-p-around_x-small">
+            <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" small-device-size="12"  medium-device-size="2.5" >
+                            
+               
+                    <h2 class="slds-card__header-title">
+                        <lightning-icon icon-name="action:google_news" alternative-text="" size="x-small"></lightning-icon>
+                        {labelCarelabelOrder} : {getselectedproductname}
+                     
+                    </h2>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12"  medium-device-size="2" >
+                            <div class="slds-m-horizontal_small">
+                <lightning-combobox  name="status" label="Language" value={selectedLang} onchange={getWrapperLang} options={picvalueoption} ></lightning-combobox>
+                <!-- <label>Language</label>
+                 <select name="select1" value={selectedLang} onchange={getWrapperLang}  placeholder={Language} style="width: 200px; height: 30px;">
+                    <option value={selectedCurrency}>{SelectedLanguage}</option>
+                    <template for:each={picvalue} for:item="s">
+                        <option key={s} value={s}>{s}</option>
+                    </template>
+                </select>  -->
+            </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12"  medium-device-size="2" >
+                <div class="slds-m-horizontal_small">
+                <template if:true={fullboxQty}>
+                    <lightning-input label={BoxQuantity} class="input-qty" placeholder={Quantity} type="number" name="Quant" value={Quantity} onchange={handleQtyChange} ></lightning-input>
+                </template>
+                <template if:false={fullboxQty}>
+                    <lightning-input label={Quantity} class="input-qty" placeholder={Quantity} type="number" name="Quant" value={Quantity}></lightning-input>
+                </template>
+            </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12"  medium-device-size="2" >
+                <div class="slds-m-horizontal_small">
+                <lightning-input label={labelUOM} class="input-qty" type="text" placeholder="" name="uom" value={uomOrder}  readonly="true"></lightning-input>    
+            </div>
+            </lightning-layout-item>
+       
+                    <lightning-layout-item size="12" small-device-size="12"  medium-device-size="3" >
+                        <div class="slds-align_absolute-center slds-m-top_large">
+            <lightning-button variant="destructive" label="Add Label" icon-name="utility:add" icon-position="left" onclick={newAddAndClone} class="slds-p-horizontal_x-small"></lightning-button>  
+            <!-- <lightning-button variant="destructive" label={AddLabel} title="Destructive action" onclick={newAddAndClone} class="slds-p-horizontal_x-small" icon-position ="left" icon-name ="utility:add"	></lightning-button> -->
+           
+            <lightning-button label="Clear" variant="destructive-text" icon-name="utility:clear" icon-position="left" onclick={ClearData} class="slds-p-horizontal_x-small"></lightning-button>	
+            <!-- <lightning-button variant="destructive-text" label={Clear} title="Destructive action" onclick={ClearData} class="slds-p-horizontal_x-small" icon-position ="left" icon-name ="utility:clear"></lightning-button> -->
+        </div>
+        </lightning-layout-item>
+           
+        </lightning-layout>
+          </div>
+
+          <div class="slds-card__body">
+            <div class="slds-m-around_medium">
+                <!-- <lightning-tabset  variant="scoped" active-tab-value={selectedTab}>
+                    <div class={colouronselectBrandIcon}>
+                <lightning-tab label="BRAND ICON" title="2nd tab extended title">
+                    <c-care-label-order-brand-icon-lwc brandopenmodel={isBrandOpenModal} careid ={CareInstructions} brandlist={Brandlist} brand-icondata={careLabelSelectedData.brandIcondata} onbrandicondata={handleBrandIconData} ></c-care-label-order-brand-icon-lwc>
+                </lightning-tab>
+                </div>
+                    <div class={colouronselectFabric}>
+                <lightning-tab label="FABRIC COMPONENT">
+                    <c-care-label-order-fabric-component-lwc listofcompany={lstcmpname} listoffabname={lstfabname} deletedclliidlist={deletedCLLIIdList} onchildevent={handleChildEvent}  onfabricselecteddata={handlFabricSelectedData} onviewedselectedarray={handelviewedselectedarray}></c-care-label-order-fabric-component-lwc>   
+                </lightning-tab>
+                </div>
+                <div class={colouronselectSize}>
+                <lightning-tab label="SIZE CHART">
+                    <c-care-label-order-size-chart-lwc listsize={sizelist} size-chart-data={careLabelSelectedData.sizeChartData} onselectedsize={handleselectedsize} onviewsizechartdata={handleviewsizechartdata}></c-care-label-order-size-chart-lwc>
+                </lightning-tab>
+            </div>
+            <div class={colouronselectCountry}>
+                <lightning-tab label="COUNTRY OF ORIGIN">
+                    <c-care-label-country-component-lwc selectedcurrency={selectedcurrency} lstcountryname={lstcountryname} selectedcountry={selectedcountry} country-origin-data={careLabelSelectedData.countryOriginData} is-country-modal-open={isCountryModalOpen} onselectedcountry={HandleSelectedcountry} ></c-care-label-country-component-lwc>
+                </lightning-tab>
+            </div>
+            <div class={colouronselectFreeText}>
+               <lightning-tab label="CARE INSTRUCTION DETAILS" onactive={CareInstructionDetailsTab}> 
+                <div  class={propInstruction}>
+                <c-care-label-care-instruction-component-lwc selected-car-tab-id={selectedCarTabId} viewis-care-instructionmodal={isCareInstructionModal} careinstruction={Careinstruction} care-selected-data={careLabelSelectedData.CareSelectedData} oncareinstructon ={handlecareinstructon} ></c-care-label-care-instruction-component-lwc>
+            </div>
+            </lightning-tab>
+            </div>
+            <div class={colouronselectFreeText}>
+                   <lightning-tab label="FREE TEXT">
+                    <c-care-label-order-free-text-lwc is-freetextmodal={isFreetextmodal} freetext-data={careLabelSelectedData.freetextData} item-master={itemMaster} onfreetextdata={handlefreetextdata} ></c-care-label-order-free-text-lwc>
+                    
+                </lightning-tab> 
+            </div> 
+               
+            </lightning-tabset> -->
+                 <div class="slds-tabs_scoped">
+            <ul class="slds-tabs_scoped__nav" role="tablist">
+                       <template if:true={itemMaster.Brand_Icon__c}>
+                        <li class={colouronselectBrandIcon} role="presentation">
+                            <div class={succesborderforBrandIcon}>
+                            <a class="slds-tabs_scoped__link"  onclick={BrandIconTab} data-id="BrandIconTab" id="BrandIconTab" style="font-size:13px;">
+                                <b>BRAND ICON </b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={itemMaster.Fabric_Component__c}>
+                        <li class={colouronselectFabric}>
+                            <div class={succesborderforFabric}>
+                            <a class="slds-tabs_scoped__link" onclick={FabricComponentTab} data-id="FabricComponentTab" id="FabricComponentTab" style="font-size:13px;">
+                                <b>FABRIC COMPONENT</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={itemMaster.Size_Chart__c}>
+                        <li class={colouronselectSize}>
+                            <div class={succesborderforSize}>
+                            <a class="slds-tabs_scoped__link" onclick={SizeChartTab} data-id="SizeChartTab" id="SizeChartTab" style="font-size:13px;">
+                                <b>SIZE CHART</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={itemMaster.Country_Of_Origin__c}>
+                        <li class={colouronselectCountry}>
+                            <div class={succesborderforCountry}>
+                            <a class="slds-tabs_scoped__link" onclick={CountryOfOriginTab} data-id="CountryOfOriginTab" id="CountryOfOriginTab" style="font-size:13px;">
+                                <b>COUNTRY OF ORIGIN</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={Careinstructionlength}>
+                        <li class={colouronselectCareInstruction}>
+                            <div class={succesborderforCareInstruction}>
+                            <a class="slds-tabs_scoped__link" onclick={CareInstructionDetailsTab} data-id="CareInstructionDetailsTab" id="CareInstructionDetailsTab" style="font-size:13px;">
+                                <b>CARE INSTRUCTION DETAILS</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={itemMaster.Excare_Instruction__c}>
+                        <li class={colouronselectExCare}>
+                            <div class={succesborderforBrandIcon}>
+                            <a class="slds-tabs_scoped__link" onclick={ExcareInstructionsTab} id="ExcareInstructionsTab" style="font-size:13px;">
+                                <b>EXCARE INSTRUCTIONS</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                       <template if:true={itemMaster.Free_Text__c}>
+                        <li class={colouronselectFreeText}>
+                            <div class={succesborderforFreetext}>
+                            <a class="slds-tabs_scoped__link" onclick={FreeTextTab}  data-id="FreeTextTab" id="FreeTextTab" style="font-size:13px;">
+                                <b>FREE TEXT</b>
+                            </a>
+                        </div>
+                        </li>
+                       </template> 
+                    </ul>
+                     <template if:true={itemMaster.Brand_Icon__c}>
+                        <div id="tab-scoped-1" class={propBranIcon}>   
+           <c-care-label-order-brand-icon-lwc brandopenmodel={isBrandOpenModal} careid ={CareInstructions} brandlist={Brandlist} brand-icondata={careLabelSelectedData.brandIcondata} onbrandicondata={handleBrandIconData} ></c-care-label-order-brand-icon-lwc>
+                        </div> 
+                    </template>`
+                    <template if:true={itemMaster.Fabric_Component__c}>
+                        <div id="tab-scoped-2" class={propfabric}>
+                            <c-care-label-order-fabric-component-lwc listofcompany={lstcmpname} listoffabname={lstfabname} deletedclliidlist={deletedCLLIIdList} onchildevent={handleChildEvent}  onfabricselecteddata={handlFabricSelectedData} onviewedselectedarray={handelviewedselectedarray}></c-care-label-order-fabric-component-lwc>   
+                        </div>    
+                    </template>
+                    <template if:true={itemMaster.Size_Chart__c}>
+                        <div id="tab-scoped-3" class={propsizechart}>  
+                             <c-care-label-order-size-chart-lwc listsize={sizelist} size-chart-data={careLabelSelectedData.sizeChartData} onselectedsize={handleselectedsize} onviewsizechartdata={handleviewsizechartdata}></c-care-label-order-size-chart-lwc>
+                        </div>   
+                    </template> 
+                    <template if:true={itemMaster.Country_Of_Origin__c}>
+                        <div id="tab-scoped-4" class={propCountry}>   
+             <c-care-label-country-component-lwc selectedcurrency={selectedcurrency} lstcountryname={lstcountryname} selectedcountry={selectedcountry} country-origin-data={careLabelSelectedData.countryOriginData} is-country-modal-open={isCountryModalOpen} onselectedcountry={HandleSelectedcountry} ></c-care-label-country-component-lwc>
+                        </div>  
+                    </template>
+                    <template if:true={Careinstructionlength}>
+                        <div id="tab-scoped-5" class={propInstruction}> 
+                        <c-care-label-care-instruction-component-lwc selected-car-tab-id={selectedCarTabId} viewis-care-instructionmodal={isCareInstructionModal} careinstruction={Careinstruction} care-selected-data={careLabelSelectedData.CareSelectedData} oncareinstructon ={handlecareinstructon} ></c-care-label-care-instruction-component-lwc>
+                        </div> 
+                    </template>
+                    <template if:true={itemMaster.Excare_Instruction__c}>
+                        <div id="tab-scoped-6">   
+                        </div>                       
+                    </template>
+                    <template if:true={itemMaster.Free_Text__c}>
+                        <div id="tab-scoped-7" class={propfreetext}>   
+<c-care-label-order-free-text-lwc is-freetextmodal={isFreetextmodal} freetext-data={careLabelSelectedData.freetextData} item-master={itemMaster} onfreetextdata={handlefreetextdata} ></c-care-label-order-free-text-lwc>
+
+                        </div>   
+                    </template>
+                </div>
+            </div>
+            <template if:false={careLabelSelectedDataListlength}>
+                <lightning-button variant="destructive" label="Change Label" title="Change Label" onclick={addLabel} class="slds-m-horizontal_medium" icon-position ="left" icon-name ="utility:insert_template"	></lightning-button>
+            </template>
+          </div>
+          <!-- <template if:true={careLabelSelectedDataListlength}>
+            <h1 style="margin-left: 31%;padding: 2rem;font-size: 21PX;">Configuration Not Done For This Product</h1>
+        </template> -->
+       <!-- <template if:true={viewselecteddata}> -->
+        <template if:true={careLabelSelectedDataListlength}>
+            <div class="slds-box slds-p-around_none slds-m-around_medium">
+                <div class="slds-card__header slds-p-around_small">
+                    <h2 class="slds-card__header-title" style="color:rgb(164, 31, 52);">
+                        <lightning-icon   icon-name="standard:contract" size="x-small"  alternative-text=" " >Selected Label</lightning-icon>
+                        Selected Label
+                    </h2>
+                </div>
+                <table class="slds-table slds-table_fixed-layout slds-table-padding slds-table-1 ">
+                    <thead>
+                        <tr style="text-transform:uppercase;">
+                            <th><b>Cust.Ref Model</b></th>
+                            <template if:true={itemMaster.Brand_Icon__c}>
+                                <th scope="col" style="">
+                                    <div class="slds-truncate">
+                                        <b>Brand Icon Image</b>
+                                    </div></th>
+                            </template>
+                            <template if:true={itemMaster.Size_Chart__c}>
+                                <th scope="col" style=""><div class="slds-truncate"><b>Size Chart</b></div></th>
+                            </template>
+                            <template if:true={itemMaster.Country_Of_Origin__c}>
+                                <th scope="col" style=""><div class="slds-truncate"><b>COUNTRY OF ORIGIN</b></div></th>
+                            </template>
+                            <th scope="col" style=""><div class="slds-truncate"><b>Quantity</b></div></th>   
+                            <th scope="col" style=""><div class="slds-truncate"><b>Language</b></div></th> 
+                            <th scope="col" style=""><div class="slds-truncate"><b>Action</b></div></th> 
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <template for:each={careLabelSelectedDataList} for:item="excareinst" for:index="index">
+                            
+                          <tr  key={excareinst.Id}>
+                            <td>{excareinst.custRefModel} </td>
+                           
+                                <template if:true={itemMaster.Brand_Icon__c}>
+                                <td>
+                                    <div class="img-zoom-container">
+                                        <div class="img-zoom-container-inner">
+                                            <div    onmouseenter={magnify} onmouseleave={magnifyleave}>
+                                                <img  class="myimage" src={excareinst.brandIcondata.Image__c} width="100"/>
+                                            </div>
+                                        </div>
+                                        <div  class="img-zoom-result"  style="display:none;"></div>
+                                    </div>
+                                </td>
+                                </template>
+                                <template if:true={itemMaster.Size_Chart__c}>
+                                    <td>{excareinst.sizeChartData.EngSize1__c}</td>
+                                </template>
+                                <template if:true={itemMaster.Country_Of_Origin__c}>
+                                    <td>{excareinst.countryOriginData.selectedcountry}</td>
+                                </template>
+                                <td><lightning-formatted-number value={excareinst.quantity}></lightning-formatted-number></td>
+                                <td>{excareinst.selectedLang}</td>
+                                <td>
+                                    <lightning-button-icon variant="bare" icon-name="utility:preview"   size="large" alternative-text="View" icon-class="dark" onclick={viewCareLabelss} name={index}></lightning-button-icon>
+                                    <lightning-button-icon variant="bare" icon-name="utility:close"   size="large" alternative-text="Remove" icon-class="dark" onclick={removeCarelabelLine} name={index}></lightning-button-icon>
+                                </td>
+    
+                          </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <footer class="slds-card__footer " style="margin-top:0;">  
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-4 slds-text-align_left">
+ <lightning-button variant="destructive" label="Change Label" title="Change Label" onclick={addLabel} class="slds-m-horizontal_medium" icon-position ="left" icon-name ="utility:insert_template"	></lightning-button>
+                        </div>
+                        <div class="slds-col slds-size_2-of-4 slds-text-align_center">
+                            <h1><b style="color:rgb(164, 31, 52);">Please click Add to Cart to add all the selected Labels to CART</b></h1>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4 slds-text-align_right">
+                            <lightning-button variant="destructive" label="ADD TO CART" title="ADD TO CART" onclick={addDataToCart}  icon-position ="left" icon-name ="utility:cart"	></lightning-button>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </template>
+    <!-- </template> -->
+     <!-- Carelabel Order Details End-->
+    </article>
+
+   </template>
+</template>
+   <template if:true={catalogVertical}>
+<c-catalog-vertical-lwc  parent-data={parentData} quickviewed-product={selectedProduct}></c-catalog-vertical-lwc>
+   </template>
+
+   
+     <!--Care Label View/Edit Start -->
+     <template if:true={viewCarelabelFlag}>
+        <section role="dialog" class="slds-modal slds-fade-in-open" style="top:50px;">
+            <div class="slds-modal__container" style="height: 100%;width: 90%;max-width: 100%;">
+                <header class="slds-modal__header">
+                    <button onclick={closeViewCareLabel} class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <lightning-icon icon-name="utility:close" size="small" alternative-text="Close" ></lightning-icon>                  
+                  </button>
+                  <h2 class="slds-text-heading_medium slds-hyphenate redcolor">Care Label View Edit</h2>
+                </header>
+                 <div class="slds-modal__content">
+                    <div class="slds-p-left_medium slds-col slds-size_1-of-3">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_2-of-5">
+                                <div class="movelang">
+                                <label>Language</label>
+                                <select name="select1" value="" onchange={viewselectedLanguages}    id="viewedpicList" style="width: 120px; height: 30px;" > 
+                                    
+                                    <template for:each={picvalue} for:item="fld">
+                                        <option key={fld} value={fld}>{fld}</option>
+                                    </template>
+                                </select>    
+                            </div>
+                        </div>
+                            <div class="slds-col slds-m-horizontal_medium slds-size_2-of-5">
+                                <template if:true={fullboxQty}>
+                                    <lightning-input label="Box Quantity"  type="Number" value={Quantity} placeholder="Quantity" onchange={viewselectedQuantity}  > </lightning-input>
+                                </template>
+                                <template if:false={fullboxQty}>
+                                    <lightning-input label="Quantity"  type="Number" value={Quantity} placeholder="Quantity"  onchange={viewselectedQuantity}> </lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_1-of-5">
+                                <lightning-input label="UOM"  type="string" value={uomOrder} placeholder=""   readonly="true"> </lightning-input>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-m-around_medium">
+                        
+                        <lightning-tabset  variant="scoped">
+        
+        <lightning-tab label="BRAND ICON" title="2nd tab extended title">
+            <c-care-label-order-brand-icon-lwc  brandlist={BrandlistForView} selectedbrand={selectedBrand}  view-brand-icondata={finalviewedCarelabelData.brandIcondata} brand-icondata={viewedCarelabelData.brandIcondata} attribute-var="Sub" onviewedcarelabeldata={handleviewedCarelabelData}></c-care-label-order-brand-icon-lwc>
+        </lightning-tab>
+        <lightning-tab label="FABRIC COMPONENT">
+            <c-care-label-order-fabric-component-lwc listofcompany={lstcmpnameForView} listoffabname={lstfabnameForView} selected-size={selectedSize} selected-array1={viewedCarelabelData.FabricSelectedData} deletedclliidlist={deletedCLLIIdList} onchildevent={handleChildEvent}  onviewedselectedarray={handelviewedselectedarray}></c-care-label-order-fabric-component-lwc>   
+        </lightning-tab>
+        <lightning-tab label="SIZE CHART">
+            <c-care-label-order-size-chart-lwc listsize={sizelistForView} size-chart-data={viewedCarelabelData.sizeChartData} onselectedsize={handleselectedsize} onviewsizechartdata={handleviewsizechartdata}></c-care-label-order-size-chart-lwc>
+        </lightning-tab>
+        <lightning-tab label="COUNTRY OF ORIGIN">
+            <c-care-label-country-component-lwc selectedcurrency={selectedcurrency} lstcountryname={lstcountryname} selectedcountry={viewedCarelabelData.countryOriginData.selectedcountry} country-origin-data={careLabelSelectedData.countryOriginData} is-country-modal-open={isCountryModalOpen}  onviewselectedcountry={handleviewselectedcountry}></c-care-label-country-component-lwc>
+        </lightning-tab>
+       <lightning-tab label="CARE INSTRUCTION DETAILS"> 
+            <c-care-label-care-instruction-component-lwc selected-car-tab-id={selectedCarTabId} viewis-care-instructionmodal={isCareInstructionModal} careinstruction={CareinstructionForView} -care-selected-data={viewedCarelabelData.CareSelectedData}  vaiw-care-selected-data={finalviewedCarelabelData.CareSelectedData} onvaiwcareselecteddata={handlevaiwcareselecteddata}></c-care-label-care-instruction-component-lwc>
+        </lightning-tab>
+           <lightning-tab label="FREE TEXT">
+            <!-- <c-care-label-order-free-text-lwc></c-care-label-order-free-text-lwc> -->
+            <c-care-label-order-free-text-lwc is-freetextmodal={isFreetextmodal} month={viewedCarelabelData.freetextData.SeasonMonth} freetext-data={viewedCarelabelData.freetextData} item-master={itemMasterForView}  free-text-id={viewedCarelabelData.freetextData.freeTextId} -style-number={viewedCarelabelData.freetextData.StyleNumber} -r-n-number={viewedCarelabelData.freetextData.RNNumber} -lot-number={viewedCarelabelData.freetextData.LotNumber} careinstruct={viewedCarelabelData.freetextData.careinstruct} view-freetext-data={finalviewedCarelabelData.freetextData} -supplier-number={viewedCarelabelData.freetextData.SupplierNumber} -labelling-code={viewedCarelabelData.freetextData.LabellingCode} -packaging-code={viewedCarelabelData.freetextData.PackagingCode} -season-month={viewedCarelabelData.freetextData.SeasonMonth} -season-year={viewedCarelabelData.freetextData.SeasonYear} -item-number={viewedCarelabelData.freetextData.ItemNumber} onviewfreetextdata={handleviewFreetextData} ></c-care-label-order-free-text-lwc>
+        </lightning-tab>  
+       
+    </lightning-tabset>
+    
+                        <!-- <lightning-tabset variant="scoped">
+                            
+                             
+                            <template if:true={itemMaster.Brand_Icon__c}>
+                                <lightning-tab  label='BRAND ICON' onactive={selectTab} id="1">
+                                    <div id="tab-scoped-s" >      
+                        <c-care-label-order-brand-icon-lwc  brandlist={BrandlistForView} selectedbrand={selectedBrand}  view-brand-icondata={finalviewedCarelabelData.brandIcondata} brand-icondata={viewedCarelabelData.brandIcondata} attribute-var="Sub" onviewedcarelabeldata={handleviewedCarelabelData}></c-care-label-order-brand-icon-lwc>
+                              </div>
+                    </lightning-tab>
+                            </template>
+                            <template if:true={itemMaster.Fabric_Component__c}>
+                                <lightning-tab  label='FABRIC COMPONENT' onactive={selectTab} id="2">
+                            <c-care-label-order-fabric-component-lwc listofcompany={lstcmpnameForView} listoffabname={lstfabnameForView} selected-size={selectedSize} selected-array1={viewedCarelabelData.FabricSelectedData} deletedclliidlist={deletedCLLIIdList} onchildevent={handleChildEvent}  onviewedselectedarray={handelviewedselectedarray}></c-care-label-order-fabric-component-lwc>   
+                                </lightning-tab>
+                            </template>
+                            <template if:true={itemMaster.Size_Chart__c}>
+                                <lightning-tab  label='SIZE CHART' onactive={selectTab} id="3">
+                                    <c-care-label-order-size-chart-lwc listsize={sizelistForView} size-chart-data={viewedCarelabelData.sizeChartData} onselectedsize={handleselectedsize} onviewsizechartdata={handleviewsizechartdata}></c-care-label-order-size-chart-lwc>
+                                </lightning-tab>
+                            </template>
+                            <template if:true={itemMaster.Country_Of_Origin__c}>
+                                <lightning-tab  label='COUNTRY OF ORIGIN' onactive={selectTab} id="4">
+                                    <div id="tab-scoped-c"> 
+                                    <c-care-label-country-component-lwc selectedcurrency={selectedcurrency} lstcountryname={lstcountryname} selectedcountry={viewedCarelabelData.countryOriginData.selectedcountry} country-origin-data={careLabelSelectedData.countryOriginData} is-country-modal-open={isCountryModalOpen}  onviewselectedcountry={handleviewselectedcountry}></c-care-label-country-component-lwc>
+                               </div>
+                                </lightning-tab>
+                            </template>
+                            <template if:true={Careinstructionlength}>
+                                <lightning-tab  label='CARE INSTRUCTION DETAILS' onactive={selectTab} id="5">
+                                    <c-care-label-care-instruction-component-lwc selected-car-tab-id={selectedCarTabId} viewis-care-instructionmodal={isCareInstructionModal} careinstruction={CareinstructionForView} -care-selected-data={viewedCarelabelData.CareSelectedData}  vaiw-care-selected-data={finalviewedCarelabelData.CareSelectedData} onvaiwcareselecteddata={handlevaiwcareselecteddata}></c-care-label-care-instruction-component-lwc>
+                                </lightning-tab>
+                            </template>
+                            <template if:true={itemMaster.Free_Text__c}>
+                                <lightning-tab  label='FREE TEXT' onactive={selectTab} id="6">
+                                    <c-care-label-order-free-text-lwc is-freetextmodal={isFreetextmodal} month={viewedCarelabelData.freetextData.SeasonMonth} freetext-data={viewedCarelabelData.freetextData} item-master={itemMasterForView}  free-text-id={viewedCarelabelData.freetextData.freeTextId} -style-number={viewedCarelabelData.freetextData.StyleNumber} -r-n-number={viewedCarelabelData.freetextData.RNNumber} -lot-number={viewedCarelabelData.freetextData.LotNumber} careinstruct={viewedCarelabelData.freetextData.careinstruct} view-freetext-data={finalviewedCarelabelData.freetextData} -supplier-number={viewedCarelabelData.freetextData.SupplierNumber} -labelling-code={viewedCarelabelData.freetextData.LabellingCode} -packaging-code={viewedCarelabelData.freetextData.PackagingCode} -season-month={viewedCarelabelData.freetextData.SeasonMonth} -season-year={viewedCarelabelData.freetextData.SeasonYear} -item-number={viewedCarelabelData.freetextData.ItemNumber} onviewfreetextdata={handleviewFreetextData} ></c-care-label-order-free-text-lwc>
+                                </lightning-tab>
+                            </template>
+                       
+                        </lightning-tabset>     -->
+                    </div>
+                    <c-logo-generator-lwc img={viewedCarelabelData.brandIcondata.Image__c} size={viewedCarelabelData.sizeChartData.EngSize1__c} selected-fabric-array={viewedCarelabelData.FabricSelectedData} country={viewedCarelabelData.countryOriginData.selectedcountry}  selected-inst-image ={viewedCarelabelData.CareSelectedData} ex-care-ins={viewedCarelabelData.exCareSelectedDataList} free-text={viewedCarelabelData.freetextData} dev-country={DevCountry} dev-size={DevSize} dev-view-edit={DevViewEdit} dev-free={DevFree} dev-care={devCare}></c-logo-generator-lwc>
+                    </div> 
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_text-destructive" onclick={closeViewCareLabel}>Cancel</button>
+                        <button class="slds-button slds-button_text-destructive" onclick={LatestSubmitViewedCareLabl}>OK</button>
+                    </footer>
+                </div>
+        </section>
+
+     </template>
+</template>

@@ -1,0 +1,47 @@
+.slds-modal__header
+{
+	color:rgb(164, 31, 52);
+}
+ .slds-icon-standard-user
+{
+    background:rgb(164, 31, 52);
+}
+.slds-welcome-mat__tile{
+	color:rgb(164, 31, 52);
+    font-weight:bold;
+    width:24%;
+    display: block;
+    margin-right:1%;
+}
+.slds-icon-standard-people
+{
+    background:rgb(164, 31, 52);
+}
+ .retailer-code-img
+{
+    display:block;
+    width:100px;
+    height: 42px;
+    background-size: 90% !important;
+    background-repeat: no-repeat !important;
+    background-position: 0 !important;
+        
+}
+ .slds-welcome-mat__tile:not(.slds-welcome-mat__tile_complete):not(.slds-welcome-mat__tile_info-only)
+{
+    box-shadow:none !important;
+    text-transform:uppercase;
+}
+THIS a
+{
+    text-decoration:none;
+}
+ .slds-box_link:hover
+{
+    border: 1px solid rgb(164, 31, 52) !important;
+    box-shadow: 0 0 0 1px rgb(164, 31, 52) inset !important;
+}
+.custom-input {
+    width: 210px; /* Adjust the width as needed */
+    margin-right: 18px;
+}

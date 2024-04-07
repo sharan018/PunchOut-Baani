@@ -1,0 +1,173 @@
+th
+{
+    background: #f7f7f7 !important;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px !important;
+    color:#000 !important;
+}
+.slds-button_icon-bare
+{
+    color:#a41f34;   
+}
+.color-area {
+    margin-bottom: 18px;
+    overflow: hidden
+}
+.color ul li {
+    border: 0 none;
+    float: left;
+    margin-right: 5px
+}
+.color ul li a {
+    clear: both;
+    background: #000000;
+    float: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #e0e0e0;
+}
+.slds-button_disabled
+{
+    background: #c9c7c5 !important;
+    border-color: #c9c7c5 !important;
+    color: #fff !important;
+}
+.slds-button_brand
+{
+    background:#a41f34;
+    border-color:#a41f34;
+}
+/*.THIS .slds-button_icon-bare:disabled
+{
+    color:rgb(217, 219, 221);
+}*/
+.slds-button_brand:hover
+{
+    background:#a41f34;
+    border-color:#a41f34;
+}
+
+.RED {
+    background: #e32b00;
+}
+.NATURAL {
+    background: #FFFFFF;
+}
+.WHITE {
+    background: #FFFFFF;
+}
+.ORANGE {
+    background: #ff9000;
+}
+.GREEN {
+    background: #8BC44A;
+}
+.YELLOW {
+    background: YELLOW;
+}
+.PURPLE {
+    background: PURPLE;
+}
+.GREY { 
+    background: GREY;
+}
+.BROWN {
+    background: BROWN;
+}
+.slds-button_brand .slds-icon-text-default
+{
+    fill:white;
+}
+.text-area textarea{
+    min-height:64px !important;
+}
+
+.custom-red-button {
+    background-color: rgba(106, 4, 4, 0.778);
+    color: white; 
+}
+.slds-hr {
+    margin: 0; 
+    padding: 0; 
+}
+.total-order-amount {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1200px;
+}
+.table-header th {
+    font-size: 13px; 
+}
+.red-button {
+    color: red;
+}
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.move{
+   margin-top: 35PX;
+   color: rgba(226, 29, 29, 0.753);
+   
+}
+.slds-tabs_scoped{
+    display: block;
+    width: 100%;
+    
+}
+ .slds-card__header
+{
+    background:#f2f2f2;
+    border-radius:0;
+    border-bottom:1.5px solid rgb(212, 212, 212);
+}
+.BrandIconTab.slds-tabs_scoped__link
+{
+    border-bottom:2px solid green !important;
+    color:green !important;
+}
+ .slds-tabs_scoped__nav
+{
+    background-color: rgb(243, 238, 238);
+}
+ .img-zoom-container {
+    display: -webkit-box;
+}
+.img-zoom-container-inner
+{
+    width:50%;    
+    display:block;
+    padding:2px 0;
+}
+ .img-zoom-container-inner .myimage
+{
+    border: 0px solid #d4d4d4;
+}
+.slds-card__footer
+{
+    background:#f2f2f2;
+    border-top:1.5px solid rgb(212, 212, 212);
+}
+.slds-tabs_scoped__item
+{
+    text-transform:uppercase;
+}
+.movelanguage{
+    margin-top: 5px;
+}
+.vertical-line {
+    border-bottom: 2px solid #000; 
+}
+.redcolor{
+    color: red;
+}
+.movelang{
+    margin-top: 5px;
+}

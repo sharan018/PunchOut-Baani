@@ -1,0 +1,21 @@
+.custom-box {
+    text-align: center;
+}
+.x-large-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.centered-content {
+    text-align: center;
+    /* Additional styling for centered content */
+}
+.centered-image-container {
+    text-align: center;
+}
+
+.centered-image-container img {
+    display: inline-block;
+}

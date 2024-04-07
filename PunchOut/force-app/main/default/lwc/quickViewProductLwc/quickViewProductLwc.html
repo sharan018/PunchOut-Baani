@@ -1,0 +1,171 @@
+<template>
+   
+    <div style="">
+        <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">      
+                </header>
+            
+                <div class="slds-modal__content">
+                    <div class="slds-grid slds-m-vertical_small">
+
+                        <div class="slds-col slds-col-1">
+                            <template for:each={quickviewedProduct.tempMap} for:item="tempValue" for:index="key">
+                                <template if:true={tempValue.keyAndColor}>
+                                    <div key={tempValue}>
+                                        <img id="myProimage" class="additional-img" src={tempValue.value.proImgURL} onclick={changeImage}></img>
+                                    <template if:true={quickviewedProduct.proAdditionalImgURL}>
+                                        <template for:each={quickviewedProduct.proAdditionalImgURL} for:item="tempAddValue" for:index="addkey">
+                                            <img key={addKey} id={myadditionalimage} class="additional-img" src={tempAddValue} onclick={changeImage}></img>
+                                        </template>
+                                    </template>
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                        
+                        <div class="slds-col slds-col-2">
+                            <template for:each={quickviewedProduct.tempMap} for:item="tempValue" for:index="key">
+                                <template if:true={tempValue.keyAndColor}>
+                                    <template if:true={tempValue.isProImgURL}>
+                                        <div key={tempValue} class="img-zoom-container">
+                                            <div  class="geeks" >
+                                                <img  alt="Zoom Image on Mouseover" src={tempValue.value.proImgURL} ></img>
+                                                <!-- <div class="img-2" style="background: url(tempValue.value.proImgURL) no-repeat #FFF;"></div> -->
+                                            </div>
+                                            
+                                        </div>
+                                    </template>
+
+                                    <template if:false={isProImgURL}>
+                                        <div key={tempValue} class="img-zoom-container" >
+                                            <a  class="img-zoom-container-inner" style={noImageContentResource}>
+                                                <!-- <img id="myimageclass" class="myimage" src={$Resource.NoImageContent}></img> -->
+                                            </a>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                        </div> 
+
+
+
+                        <div class="slds-col slds-col-3 slds-p-around_medium">
+                            <h2 class="slds-carousel__content-title"> {quickviewedProduct.Name}</h2>
+                            <button class={closeicon} title="Close" style="float:right;padding:3px;margin-top:-25px;" onclick={close}>
+                                <lightning-icon class="white"  icon-name="utility:close" size="x-small" alternative-text="Approved" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <hr class="slds-m-vertical_x-small"></hr>
+                            
+                    <template for:each={quickviewedProduct.tempMap} for:item="tempValue" for:index="key">
+                                <!-- <div key={tempValue} class="slds-p-vertical_x-small"> -->
+                        <template if:true={tempValue.keyAndColor}>
+                                    <div key={tempValue} class="slds-p-vertical_x-small">                 
+                                        <p class="dimgrey">{tempValue.value.proddescription}</p>
+                                        <p class="dimgrey">{tempValue.value.proddescription2}</p>
+                                    </div>
+                                    <template if:true={mCareTab}>
+                                        <p key={tempValue} class="dimgrey">{tempValue.value.proddescription3}</p>
+                                    </template>
+                                
+
+                                <template if:true={tempValue.value.showPrice}>
+                                    <template if:true={mCareTab}>
+                                        <p key={tempValue} class="price slds-truncate" >
+                                            <b>UOM Price : </b>
+                                        <template if:true={tempValue.isCurrencyType}>
+                                            <lightning-formatted-number value={tempValue.value.uomPrice} style="currency" currency-code={tempValue.value.currencyType}></lightning-formatted-number>
+                                        </template>
+                                        <template if:false={tempValue.isCurrencyType}>
+                                            <b>UOM Price : <lightning-formatted-number value={tempValue.value.uomPrice}></lightning-formatted-number></b>
+                                        </template>
+                                        </p>
+                                    </template>
+                                    <template if:false={mCareTab}>
+
+                                        <p key={tempValue} class="price slds-truncate" >
+                                            
+                                            <template if:true={tempValue.isCurrencyType}>
+                                                <b >Price/100 </b>
+                                                <lightning-formatted-number value={tempValue.value.proPrice} style="currency" currency-code={tempValue.value.currencyType}></lightning-formatted-number>
+                                            </template> 
+                                            
+                                            <template if:false={tempValue.isCurrencyType}>
+                                                <b>Price 100 : <lightning-formatted-number value={tempValue.value.proPrice}></lightning-formatted-number></b>
+                                            </template>   
+                                        </p>    
+                                    </template>
+                                </template>
+
+
+
+                                <template if:true={tempValue.isFullboxQty}>
+                                    <p key={tempValue}><b>Box Quantity </b>{tempValue.value.boxquantity}</p>
+                                </template>
+                                <p key={tempValue}><b>Customer Ref Model </b>{tempValue.value.custRefModel}</p>
+                                {tempValue.productfamily}
+                            <!-- </div> -->
+
+
+                            <template if:false={labelTickectTab}>
+                                <div key={tempValue} class="slds-grid slds-m-bottom_x-small">
+                                    <template if:true={mCareTab}>
+                                        <div class="slds-col">  
+                                            <div class="slds-box slds-box_xx-small slds-form-element__control slds-grow slds-m-right_xx-small slds-m-top_xxx-small">
+                                                 <span>{tempValue.value.UomOrder}</span>
+                                            </div>
+                                       </div>
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <template if:true={hangerBusinessTab}>
+                                            <div class="color selected-color-icon">
+                                                <ul>   
+                                                    <li>
+                                                        <a class={tempValue.key} id={tempValue.key} title={tempValue.key}  name={key} onclick={colorChange}></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                        <lightning-input variant="label-hidden" class="input-qty" type="number" name="input5" placeholder="Quantity" required=true value={tempValue.quantity} disabled={tempValue.value.addedToCart} onchange={handleQuantity}></lightning-input>
+                                    </div>
+                                     <div class="slds-col slds-size_1-of-2">
+                                        <!-- <button class={tempValue.value.addedToCart ? 'slds-button slds-button_destructive slds-button_red slds-button_red-disabled':'slds-button slds-button_destructive slds-button_red'}  data-record={ind+' '+key} onclick={saveproddata} disabled={tempValue.value.addedToCart}> {tempValue.value.addedToCart ? Added Cart :ADD TO CART}</button> -->
+                                         <!-- <button  class={addcartbuttoncss2} data-record={key} name={key} onclick={saveproddata} disabled={productIncart} >ADD TO CART</button> -->
+                                     </div>
+                                </div>
+                            </template>
+
+                            <template if:true={labelTickectTab}>
+                                <template if:false={noVarProd}>
+                                    <div key={tempValue} class="slds-grid slds-m-bottom_x-small">
+                                        <lightning-input variant="label-hidden" class="input-qty" type="number" name="input5" placeholder="Quantity" required value={tempValue.quantity} disabled={tempValue.value.addedToCart} onchange={handleQuantity}></lightning-input>
+                                        <div class="slds-col slds-size_1-of-2">
+                                         <!-- <button  class={addcartbuttoncss2} data-record={key} name={key} onclick={saveproddata} disabled={tempValue.value.addedToCart} >ADD TO CART</button> -->
+                                         <!-- <button class={tempValue.value.addedToCart ? 'slds-button slds-button_destructive slds-button_red slds-button_red-disabled':'slds-button slds-button_destructive slds-button_red'}  data-record={ind+' '+key} onclick={saveproddata} disabled={tempValue.value.addedToCart}> {tempValue.value.addedToCart ? Added_Cart :ADD_TO_CART}</button> -->
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                    </template>
+                </template>
+
+                            <template for:each={quickviewedProduct.tempMap} for:item="tempValue" for:index="key">
+                                <template  if:true={hangerBusinessTab}>
+                                    <div key={tempValue.key} class={tempValue.key}>
+                                    <div class="color">
+                                        <ul>
+                                            <li><a class={tempValue.key} id={tempValue.key} title={tempValue.key}  name={key} onclick={colorChange}></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

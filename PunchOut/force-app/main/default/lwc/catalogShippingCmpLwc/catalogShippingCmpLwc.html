@@ -1,0 +1,328 @@
+<template>
+    <lightning-card>
+        <template if:true={loaded}>
+            <lightning-spinner alternative-text={labelLoading} size="large"></lightning-spinner>
+        </template>
+        <template if:true={confirmdataSection}>
+            <div class="confirmdataSection">
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                <div class="slds-notify_container slds-is-fixed">
+                    <div class="slds-notify slds-notify_toast" style="background:white;color:black;padding:1%;">
+                        <div class="slds-notify__content" style="width:100%">
+                            <h2 class="slds-text-heading_x-small" style="font-family: sans-serif;">
+                                {label.some_products_selected_not_added_into_cart}<br />
+                                {label.click_ok_to_add_pending_products_to_cart}<br />
+                                {label.click_cancel_to}
+                                <span class="slds-text-color_destructive">{label.delete}</span>
+                                {label.selected_products_and_proceed_to_create_order}
+                            </h2>
+                            <div class="slds-m-top_medium slds-text-align_right" style="font-size: 86%;">
+                                <button class="slds-button slds-button_brand slds-m-right_x-small" title={okLabel} onclick={handleOkClick}>{okLabel}</button>
+                                <button class="slds-button slds-button_brand" title={cancelLabel} onclick={handleCancelClick}>{cancelLabel}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+        <template if:true={Shipcmp}>
+
+            
+                <div  style="font-size:11px;">
+                    <h2 class="slds-card__header-title slds-p-vertical_small"><b>SHOPPING CART</b></h2>
+
+                                
+                            <template for:each={displayCartDetail} for:item="cartDetail" for:index="ind">
+                               
+                                <div class="slds-border_bottom" key={cartDetail.Id}>
+                                <lightning-layout multiple-rows key={cartDetail.Id}>
+                                    <lightning-layout-item size="12" small-device-size="6" medium-device-size="1.5" >
+                                        <img src={cartDetail.Productimage} alt="Product" width="110" />
+                                        
+                                            <template if:true={isSelectedTabLabelsAndTickets}>
+                                                <template if:true={cartDetail.noVarProd}>
+                                                    <lightning-button-icon icon-name="utility:preview" size="large" onclick={viewCareLabel} value={cartDetail.Id} name={ind} variant="bare" alternative-text={label.View} title={label.View} icon-class="dark"></lightning-button-icon>
+                                                </template>
+                                            </template>
+                                       
+
+                                    </lightning-layout-item>
+                                
+                                    
+                                <lightning-layout-item size="12" small-device-size="6" medium-device-size="3.5" >
+                           
+                               
+                                     
+                                        <p>
+                                            <b style="display:inline-block;">{label.Mainetti_Model_Code}</b>
+                                            <span style="color:#a41f34;">: {cartDetail.PSBP}</span>
+                                        </p>
+                                        <p class="slds-truncate">
+                                            <b style="display:inline-block;">{label.Description}</b>: {cartDetail.Description} from {cartDetail.retailerName}
+                                        </p>
+                                        <template if:true={cartDetail.fullboxQty}>
+                                            <p>
+                                                <b style="display:inline-block;">{label.Color}</b>: {cartDetail.Color}
+                                            </p>
+                                            <p>
+                                                <b style="display:inline-block;">{label.Size}</b>: {cartDetail.Size}
+                                            </p>
+                                            <p>
+                                                <b style="display:inline-block;">{label.Box_Quantity}</b>: {cartDetail.boxquantity}
+                                            </p>
+                                            <template if:true={cartDetailStatusActive}>
+                                                <p><b style="display:inline-block;">Status </b>: {cartDetail.Status}</p>
+                                            </template>
+                                                 <template if:true={cartDetailStatusInactive}>
+                                                <p><b style="display:inline-block;">Status </b><span style="color:#a41f34;">: {cartDetail.Status}</span></p>
+                                                 </template>
+                                                 <template if:true={cartDetail.priceChanged}>
+                                                    <p><b style="display:inline-block;">Price</b><span style="color:#a41f34;">: Changed</span></p>
+                                                </template>
+                                        </template>
+                                       
+                                </lightning-layout-item>
+                            
+                            <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" >
+                            
+                                        <template if:true={cartDetail.fullboxQty}>
+                                           
+                                            <lightning-input class="slds-m-left_large slds-m-right_large" type="number" name={ind} label="Quantity" data-id={cartDetail.Id} value={cartDetail.Quantity} onchange={calculateBoxQty} ></lightning-input>
+                                        </template>
+                                        <template if:false={cartDetail.fullboxQty}>
+                                            <lightning-input  class="slds-m-left_large slds-m-right_large" type="number" name={ind} label="Quantity" data-id={cartDetail.Id} value={cartDetail.Quantity} onchange={calculateBoxQty}></lightning-input>
+                                        </template>
+                                       
+                                    </lightning-layout-item>
+                            
+                                    <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" >
+                                    <lightning-input class="slds-m-left_large slds-m-right_large " label="Price" type="text" name={ind} value={cartDetail.formattedValue} disabled></lightning-input>
+                                    
+                            </lightning-layout-item>
+                            <!-- <lightning-layout-item size="12" small-device-size="1" medium-device-size="1" >
+                            
+                                    <template if:true={showRemarks}>
+                                        <lightning-textarea class="text-area" name="remarks" value={cartDetail.Remarks} onchange={handleRemarksChange}></lightning-textarea>
+                                    </template>
+                               
+                        </lightning-layout-item> -->
+                        <lightning-layout-item size="12" small-device-size="2" medium-device-size="1" >
+                            
+                            <div class="center-container slds-m-top_large">
+
+                                <lightning-button-icon data-index={ind} name={ind} icon-name="utility:delete" size="large" variant="bare" alternative-text="Remove" onclick={handleDeleteProduct} >
+
+                                </lightning-button-icon>
+                            </div>
+                       
+                </lightning-layout-item>
+                            </lightning-layout>
+                                
+                        </div>
+                               
+
+                            </template>
+                         
+                            <!-- <template if:true={showPriceInOrder}>
+                                <template if:true={renderTotalAmmount}>
+                                    <template if:true={cartProducts}>
+                                        <td class="" scope="col" style="width:15%;"></td>
+                                        <th class="" scope="col" style="width:5%;"></th>
+                                        <td class="" scope="col" style="width:38%;"></td>
+                                        <td class="" scope="col" style="width:12%;"></td>
+                                        <td class="" scope="col" style="width:12%;">
+                                            <h1>{label.Total_Order_Ammount}{CurrencyIso}&nbsp;{TotalOrderAmmount}</h1>
+                                        </td>
+                                    </template>
+                                </template>
+                            </template> -->
+
+
+                    
+                    &nbsp;
+                    &nbsp;
+
+
+                    <!-- <div class="total-order-amount" style="font-size: 14px;">
+            Total Order Amount:
+        </div> 
+ <hr class="slds-hr" /> -->
+ 
+    
+                    
+                        <lightning-layout multiple-rows>
+    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" >
+        &nbsp;
+        <lightning-button class="slds-align_absolute-center" type="submit" name="submit" icon-name="utility:shopping_bag" label="CONTINUE SHOPPING" variant="destructive" onclick={handleBackToCatalog}> </lightning-button>
+        
+                        <!-- <div class="slds-col">
+                            <button class="slds-button slds-button_brand slds-m-top_medium custom-red-button" onclick={handleBackToCatalog}>
+                                <span class="slds-icon_container">
+                                    <lightning-icon icon-name="utility:shopping_bag" alternative-text="Continue Shopping" size="x-small"></lightning-icon>
+                                </span>
+                                CONTINUE SHOPPING
+                            </button>
+                        </div> -->
+                    </lightning-layout-item>
+                
+                        
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+                                &nbsp;
+                                <lightning-button  class="slds-align_absolute-center" type="submit" name="submit" icon-name="utility:clear" label="CLEAR CART" variant="destructive" onclick={handleClearCart}> </lightning-button>
+                            <!-- <div class="slds-col">
+                                <button class="slds-button slds-button_brand slds-m-top_medium custom-red-button" onclick={handleClearCart}>
+                                    <span class="slds-icon_container">
+                                        <lightning-icon icon-name="utility:clear" alternative-text="Clear" size="x-small"></lightning-icon>
+                                    </span>
+                                    CLEAR CART
+                                </button>
+                            </div> -->
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12"  small-device-size="12" medium-device-size="2" >
+                            &nbsp;
+                            <template if:true={hideButtons}>
+
+                                <lightning-button type="submit" class="slds-align_absolute-center" name="submit" icon-name="utility:record_update" label="UPDATE CART" variant="destructive" onclick={handleUpdate}> </lightning-button>
+                                <!-- <div class="slds-col">
+                                    <button class="slds-button slds-button_brand slds-m-top_medium custom-red-button" onclick={handleUpdate}>
+                                        <span class="slds-icon_container">
+                                            <lightning-icon icon-name="utility:record_update" alternative-text="Record Update" size="x-small"></lightning-icon>
+                                        </span>
+                                        UPDATE CART
+                                    </button>
+                                </div> -->
+                            </template>
+                        </lightning-layout-item>
+                    
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+                            &nbsp;
+                            <template if:true={hideButtons}>
+                                
+                                <lightning-button type="submit" name="submit" class="slds-align_absolute-center"  icon-name="utility:cart" label="VIEW ORDER" variant="destructive" onclick={handlePlace}> </lightning-button>
+                                <!-- <div class="slds-col">
+                                    <button class="slds-button slds-button_brand slds-m-top_medium custom-red-button" onclick={handlePlace}>
+                                        <span class="slds-icon_container">
+                                            <lightning-icon icon-name="utility:cart" alternative-text="View Order" size="x-small"></lightning-icon>
+                                        </span>
+                                        VIEW ORDER
+                                    </button>
+                                </div> -->
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                  
+                </div>
+            
+        </template>
+        <!-- <template if:true={parentcomponent} >
+        <c-catalog-order-lwc ></c-catalog-order-lwc>
+    </template> -->
+        <template if:true={getAddress}>
+            <c-sales-order-address-for-catalog-order-lwc address-popup-flag={getAddress} customer-info-id={displayCustDetail} order-source="CATALOG" retailer-name={selectedRetailerName} retailer-code-id={selectedRetailer} onclosepopup={handleClose} display-cart-detail={displayCartDetail}>
+            </c-sales-order-address-for-catalog-order-lwc>
+        </template>
+        <template if:true={parentcmp}>
+            <c-catalog-order-lwc parentcmp={parentcmp} selected-retailer-code={selectedRetailer} selected-retailer={selectedRetailerName}></c-catalog-order-lwc>
+        </template>
+
+        <!--Care Label View/Edit Start -->
+        
+
+        <template if:true={viewCarelabelFlag}>
+            <section role="dialog" class="slds-modal slds-fade-in-open" style="top:50px;">
+                <div class="slds-modal__container" style="height: 100%;width: 90%;max-width: 100%;">
+                    <header class="slds-modal__header">
+                        <button onclick={closeViewCareLabel} class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <lightning-icon icon-name="utility:close" size="small" alternative-text="Close" ></lightning-icon>
+                      </button>
+                      <h2 class="slds-text-heading_medium slds-hyphenate redcolor">Care Label View Edit</h2>
+                    </header>
+                    <div class="slds-modal__content">
+                        <div class="slds-p-left_medium slds-col slds-size_1-of-3">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_2-of-5">
+                                    <label>Language</label>
+                                    <div class="movelang">
+                                        
+                                    <select name="select1" value={careLabelSelectedDataList.selectedLang} onchange={handleLanguageChange}    id="viewedpicList" style="width: 120px; height: 30px;" >
+                                        <option value={careLabelSelectedDataList.selectedLang} >{careLabelSelectedDataList.selectedLang}</option>
+                                        <template for:each={picvalue} for:item="fld">
+                                            <option key={fld} value={fld}>{fld}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="slds-col slds-m-horizontal_medium slds-size_2-of-5">
+                                    <template if:true={fullboxQty}>
+                                        <lightning-input label="Box Quantity"  type="Number" value={selectedQuanty}  onchange={handleQuantity}  > </lightning-input>
+                                    </template>
+                                    <template if:false={fullboxQty}>
+                                        <lightning-input label="Quantity"  type="Number" value={selectedQuanty}   onchange={handleQuantity}> </lightning-input>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_1-of-5">
+                                    <lightning-input label="UOM"  type="string" value={uomOrder} placeholder="" onchange={handleUmo}  readonly="true"> </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-m-around_medium">
+                            <lightning-tabset variant="scoped">
+                                <!-- <template for:each={itemMasterForView} for:item="item" for:index="index"> -->
+                                 <!-- <div key={item.Id}> -->
+                                <template if:true={itemMasterForView.Brand_Icon__c}>
+                                    <lightning-tab  label='BRAND ICON' onactive={selectTab} id="1">
+                                        <div id="tab-scoped-s" >      
+                            <c-care-label-order-brand-icon-lwc data-id="viewCareLabel" brandlist={BrandlistForView} selectedbrand={selectedBrand}  view-brand-icondata={viewedCarelabelData.brandIcondata} brand-icondata={viewedCarelabelData.brandIcondata} attribute-var="Sub" ></c-care-label-order-brand-icon-lwc>
+                                  </div>
+                        </lightning-tab>
+                                </template>
+                                <template if:true={itemMasterForView.Fabric_Component__c}>
+                                    <lightning-tab  label='FABRIC COMPONENT' onactive={selectTab} id="2">
+                                <c-care-label-order-fabric-component-lwc data-id="viewCareLabel" listofcompany={lstcmpnameForView} listoffabname={lstfabnameForView} selected-size={selectedSize} selected-array1={viewedCarelabelData.FabricSelectedData} deletedclliidlist={deletedCLLIIdList} onchildevent={handleChildEvent}  onviewedselectedarray={handelviewedselectedarray}></c-care-label-order-fabric-component-lwc>   
+                                    </lightning-tab>
+                                </template>
+                                <template if:true={itemMasterForView.Size_Chart__c}>
+                                    <lightning-tab  label='SIZE CHART' onactive={selectTab} id="3">
+                                        <c-care-label-order-size-chart-lwc data-id="viewCareLabel" listsize={sizelistForView} size-chart-data={viewedCarelabelData.sizeChartData} onselectedsize={handleselectedsize} onviewsizechartdata={handleviewsizechartdata}></c-care-label-order-size-chart-lwc>
+                                    </lightning-tab>
+                                </template>
+                                 <template if:true={itemMasterForView.Country_Of_Origin__c}>
+                                    <lightning-tab  label='COUNTRY OF ORIGIN' onactive={selectTab} id="4">
+                                        <div id="tab-scoped-c"> 
+                                        <c-care-label-country-component-lwc data-id="viewCareLabel" selectedcurrency={selectedcurrency} lstcountryname={lstcountrynameForView} selectedcountry={careLabelSelectedDataList.countryOriginData.selectedcountry} country-origin-data={careLabelSelectedDataList.countryOriginData} is-country-modal-open={isCountryModalOpen}  onviewselectedcountry={handleviewselectedcountry}></c-care-label-country-component-lwc>
+                                   </div>
+                                    </lightning-tab>
+                                </template>
+                               <template if:true={Careinstructionlength}>
+                                    <lightning-tab  label='CARE INSTRUCTION DETAILS' onactive={selectTab} id="5">
+                                        <c-care-label-care-instruction-component-lwc data-id="viewCareLabel" selected-car-tab-id={selectedCarTabId} viewis-care-instructionmodal={isCareInstructionModal} careinstruction={CareinstructionForView} -care-selected-data={careLabelSelectedDataList.CareSelectedData}  vaiw-care-selected-data={careLabelSelectedDataList.CareSelectedData} onvaiwcareselecteddata={handlevaiwcareselecteddata}></c-care-label-care-instruction-component-lwc>
+                                    </lightning-tab>
+                                </template>
+                                <template if:true={itemMasterForView.Free_Text__c}>
+                                    <lightning-tab  label='FREE TEXT' onactive={selectTab} id="6">
+                                        <c-care-label-order-free-text-lwc data-id="viewCareLabel" is-freetextmodal={isFreetextmodal} month={viewedCarelabelData.freetextData.SeasonMonth} freetext-data={viewedCarelabelData.freetextData} item-master={itemMasterForView}  free-text-id={viewedCarelabelData.freetextData.freeTextId} -style-number={viewedCarelabelData.freetextData.StyleNumber} -r-n-number={viewedCarelabelData.freetextData.RNNumber} -lot-number={viewedCarelabelData.freetextData.LotNumber} careinstruct={viewedCarelabelData.freetextData.careinstruct} view-freetext-data={viewedCarelabelData.freetextData} -supplier-number={viewedCarelabelData.freetextData.SupplierNumber} -labelling-code={viewedCarelabelData.freetextData.LabellingCode} -packaging-code={viewedCarelabelData.freetextData.PackagingCode} -season-month={viewedCarelabelData.freetextData.SeasonMonth} -season-year={viewedCarelabelData.freetextData.SeasonYear} -item-number={viewedCarelabelData.freetextData.ItemNumber} onviewfreetextdata={handleviewFreetextData}></c-care-label-order-free-text-lwc>
+                                    </lightning-tab>
+                                </template> 
+                            <!-- </div> -->
+                                <!-- </template> -->
+                            </lightning-tabset>    
+                        </div>
+                        <c-logo-generator-lwc img={viewedCarelabelData.brandIcondata.Image__c} size={viewedCarelabelData.sizeChartData.EngSize1__c} selected-fabric-array={viewedCarelabelData.FabricSelectedData} country={viewedCarelabelData.countryOriginData.selectedcountry}  selected-inst-image={viewedCarelabelData.CareSelectedData} ex-care-ins={viewedCarelabelData.exCareSelectedDataList} free-text={viewedCarelabelData.freetextData} dev-country={DevCountry} dev-size={DevSize} dev-view-edit={DevViewEdit} dev-free={DevFree}></c-logo-generator-lwc>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_text-destructive" onclick={newAddAndClone}>Save as</button>
+                        <button class="slds-button slds-button_text-destructive" onclick={closeViewCareLabel}>Cancel</button>
+                        <button class="slds-button slds-button_text-destructive" onclick={SubmitViewedCareLabl}>OK</button>
+                    </footer>
+                    </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+         </template>
+
+
+    </lightning-card>
+
+
+   
+</template>

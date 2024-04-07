@@ -1,0 +1,39 @@
+<template>
+
+    <template for:each={addressList} for:item="add" for:index="ind">
+        <div key={ind.name} class="slds-m-bottom_large1">
+            <article class="slds-tile slds-media">
+                <div class="slds-media__figure">
+                    <!-- <input type="checkbox" text={add.Id} value={add.Is_Default__c}  onchange={changeAddress}   name={ind}  checked={add.Is_Default__c} /> -->
+                    <!-- <lightning-input type="checkbox" text={add.Id} value={add.Is_Default__c} checked={add.Is_Default__c} name={ind} onchange={changeAddress}></lightning-input> -->
+                </div>
+                <div class="slds-media__body">                       
+                    <div class="slds-tile__detail">
+                        <dl class="slds-list_horizontal slds-wrap">
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Factory Name</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Address_Name__c}>{add.Address_Name__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Street</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Street__c}>{add.Street__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">City</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.City__c}>{add.City__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">State</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.State__c}>{add.State__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Country</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Country__c}>{add.Country__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Postal Code</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Postcode__c}>{add.Postcode__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Contact Name</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Contact__c}>{add.Contact__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Contact Number</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Tel_No__c}>{add.Tel_No__c}</dd>
+                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="">Contact Email</dt>
+                            <dd class="slds-item_detail slds-truncate" title={add.Email_Address__c}>{add.Email_Address__c}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <hr key={ind.name}></hr>
+    </template>
+    
+</template>

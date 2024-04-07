@@ -1,0 +1,141 @@
+<template>
+    <div class="slds-box">
+        <lightning-card>
+    <!-- <script src={html2canvasLibrary}></script>     -->
+    <div class="c-container">
+        <div class="x-large-container">
+            <div class="centered-content" id="Print">
+                <div class="slds-text-align_left slds-m-left_small slds-text-body_small">
+                    *{labelBelowInformation} <br/>{labelBelowInformation02}
+                </div>
+
+                <template if:true={devlogo}>
+                    <div style={computedStyle}>
+                        <img src={img} style="max-height: 100px; max-width: 100px;" />
+                    </div>
+                </template>
+
+                <template if:true={devSize}>
+                    <div><b>{labelSize}</b></div>
+                    <b>{size}</b><br />
+                </template>
+
+                <template if:true={devFabric}>
+                    <b>{FABRIC}</b><br/>
+                    <template for:each={selectedFabricArray} for:item="val" for:index="index">
+                        {val.Component}&nbsp;&nbsp;
+                        {val.Fabric}&nbsp;&nbsp;
+                        {val.value}% 
+                    </template>
+                </template>
+                <br/>
+                <template if:true={devCountry}>
+                  <b>{COUNTRY_OF_ORIGIN}</b><br/>
+                    {country}<br/>
+                </template>
+                
+                <template if:true={devCare}>
+                    <b>{CARE_INSTRUCTION_DETAILS}</b><br/>
+                    <template for:each={selectedInstImage} for:item="careInst1" for:index="index">
+                        {careInst1.group}&nbsp;&nbsp;
+                        {careInst1.instr}&nbsp;&nbsp;
+                        <template if:true={careInst1.descr}>
+                            <image key={careInst1.id} class="icon-image" src={careInst1.descr} alt="image" style="height:30px; width:50px" ></image>
+                        </template>
+                        <template if:false={careInst1.descr}>
+                            &nbsp; &nbsp; &nbsp; 
+                          </template>
+                    </template>
+                </template>
+
+                <template if:true={devCareclone}>
+                    <b>{CARE_INSTRUCTION_DETAILS}</b><br/>
+                    <template for:each={selectedInstImageClone} for:item="careInst1" for:index="index">
+                        {careInst1.group}&nbsp;&nbsp;
+                        {careInst1.instr}&nbsp;&nbsp;
+                        <template if:true={careInst1.descr}>
+                            <img key={careInst1.id} class="icon-image" src={careInst1.descr} alt="image" style="height:30px; width:50px" ></img>
+                          
+                        </template>
+                        <template if:false={careInst1.descr}>
+                            &nbsp; &nbsp; &nbsp; 
+                          </template>
+                    </template>
+                </template>
+
+                <template if:true={devExcare}>
+                   <b> {EXCARE_INSTRUCTIONS}</b><br/>
+                   <template for:each={exCareIns} for:item="Care" for:index="index">
+                    {Care.exCareInstruction}&nbsp;&nbsp;
+                    {Care.position}
+                   </template>
+                </template>
+
+                <template if:true={devFree}>
+                    <b> {FREE_TEXT}</b><br/>
+                <div style="white-space: pre">
+                   <template for:each={freeText} for:item="text" for:index="index">
+                    <div key={text}>
+                        <template if:true={text.StyleNumber}>Style Number {text.StyleNumber}</template><br/>
+                        <template if:true={text.RNNumber}>RN Number {text.RNNumber}<br/></template>
+                        <template if:true={text.LotNumber}>Lot Number {text.LotNumber}<br/></template>
+                        <template if:true={text.SupplierNumber}>Supplier Number {text.SupplierNumber}<br/></template>
+                        <template if:true={text.LabellingCode}>Labelling Code {text.LabellingCode}<br/></template>
+                        <template if:true={text.PackagingCode}>Packaging Code {text.PackagingCode}<br/></template>
+                        <template if:true={text.SeasonMonth}>Season Month {text.SeasonMonth}<br/></template>
+                        <template if:true={text.SeasonYear}>Season Year {text.SeasonYear}<br/></template>
+                        <template if:true={text.ItemNumber}>Item Number {text.ItemNumber}<br/></template>
+                        <template if:true={text.Careinstructions}>{Careinstructions} {text.Careinstructions}<br/></template>
+                    </div>
+                    </template>
+                </div>
+                </template>
+
+
+                <template if:true={devFreeclone}>
+                    <b> {FREE_TEXT}</b><br/>
+                <div style="white-space: pre">
+                   <template for:each={freeTextclone} for:item="text" for:index="index">
+                    <div key={text}>
+                        <template if:true={text.StyleNumber}>Style Number {text.StyleNumber}</template><br/>
+                        <template if:true={text.RNNumber}>RN Number {text.RNNumber}<br/></template>
+                        <template if:true={text.LotNumber}>Lot Number {text.LotNumber}<br/></template>
+                        <template if:true={text.SupplierNumber}>Supplier Number {text.SupplierNumber}<br/></template>
+                        <template if:true={text.LabellingCode}>Labelling Code {text.LabellingCode}<br/></template>
+                        <template if:true={text.PackagingCode}>Packaging Code {text.PackagingCode}<br/></template>
+                        <template if:true={text.SeasonMonth}>Season Month {text.SeasonMonth}<br/></template>
+                        <template if:true={text.SeasonYear}>Season Year {text.SeasonYear}<br/></template>
+                        <template if:true={text.ItemNumber}>Item Number {text.ItemNumber}<br/></template>
+                        <template if:true={text.Careinstructions}>{Careinstructions} {text.Careinstructions}<br/></template>
+                    </div>
+                    </template>
+                </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <template if:true={ShowLogo}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon icon-name="utility:close" alternative-text={Close} variant="bare-inverse" class="slds-modal__close"
+                    onclick={closeModel}></lightning-button-icon>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{Logo_View}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="centered-image-container">
+                        <img src={Logo} />
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand" label={Close} title="Brand action" onclick={closeModel}></lightning-button>
+                </footer>    
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</lightning-card>
+</div>
+</template>

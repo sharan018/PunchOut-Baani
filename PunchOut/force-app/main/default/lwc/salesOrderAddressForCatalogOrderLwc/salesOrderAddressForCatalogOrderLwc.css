@@ -1,0 +1,78 @@
+.slds-icon-standard-product-required{
+    background:#a41f34!important;
+}
+h2
+{
+    color:#a90533;
+}
+h2.THIS 
+{
+    color:#a90533;
+}
+
+.box-title {
+    display: flex;
+    position: relative;
+    top: -26px;
+    background: white;
+    padding: 0 10px;
+    color: #a90533;
+    
+    font-weight:bold;
+}
+.disabled
+{
+    background-color: rgb(233, 234, 236);
+    border-color: rgb(196, 198, 202);
+}
+.hide-label label
+{
+    display:none;
+}
+.box-input
+{
+    height:32px;
+}
+label{
+    font-size:11px;
+}
+.slds-form-element__label
+{
+    font-size:11px;
+}
+.table-container{
+    border: 1px solid gray;  
+}
+.table-container td{
+    padding:5px;
+}
+.table-container .slds-button_neutral,
+.table-container .slds-button_neutral{
+    line-height: 22px;
+    padding: 0 7px; 
+}
+.table-container .slds-button_neutral .slds-button__icon,
+.table-container .slds-button_neutral .slds-button__icon{
+    width:14px !important;
+    height:14px !important; 
+}
+.slds-modal__container{
+    width: 100%;
+    font-size: 11px;
+    max-width: 100%;
+    padding:.5rem !important;
+}
+:host {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+@media (max-width: 768px) {
+    /* Styles for screens with a maximum width of 768px (typical for mobile devices) */
+    .slds-modal__container{
+        
+        font-size: 11px;
+      
+        
+    }
+}

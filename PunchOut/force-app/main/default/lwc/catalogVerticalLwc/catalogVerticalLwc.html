@@ -1,0 +1,377 @@
+<template>
+   <template if:false={quickviewSizer}>
+    <template if:false={sizerhanger}>
+    <template if:false={quickview}>
+    <template if:true={notlabelsampandtickets}>
+        
+        <div class="slds-grid_vertical-align-end">                        
+            <div class="products-grid slds-grid slds-wrap">
+              
+                <template for:each={productlistfromparent} for:item="prod" for:index="ind">
+                    <template for:each={prod.tempMap} for:item="tempValue" for:index="key">
+                         <template if:true={tempValue.selectedColorKey}>
+                            <div key={prds}>
+                    <!-- <div class="slds-col slds-small-size_2-of-2 slds-medium-size_3-of-3 slds-large-size_4-of-6 slds-float_left slds-text-align_center">  -->
+                        <div class="slds-col slds-float_left slds-text-align_center"  style="width: 300px;"> 
+                        <div class="product-item">     
+
+                           <div class={addedToCartcls}>
+                            <template if:true={tempValue.value.addedToCart}>
+                                <div class="icon-sale-label inCart_font-size sale-right Added">Added</div>
+                            </template>
+                            <template if:true={tempValue.value.addedAsLabel}>
+                                <div class="icon-sale-label inCart_font-size sale-right Added">Pending</div>
+                            </template>
+                            
+                    <div class="product-thumbnail">  
+                        <div class="btn-quickview">
+                                <span><lightning-button label="Quick View" size="large" name={ind} icon-name="utility:search" onclick={quickviewcmp} alternative-text={approvedLabel} style="pointer-events: all;"></lightning-button></span>
+                        </div>
+                    </div>
+                    <div class="pro-box-info">
+                    <template if:true={tempValue.value.proImgURL}>
+                        <!-- style={proImgURLsimage} -->
+                         <a class="product-item-photo"  name={tempValue.value.priceBookId}> 
+                              <img class="product-item-photo" src={tempValue.value.proImgURL} alt="image" name={ind} onclick={quickviewcmp} /> 
+                            </a>
+                    </template>
+                    <template if:false={tempValue.value.proImgURL}>
+                        <a class="product-item-photo no-item-img" style={backgroundStyleNoImage}>
+                        <img src={noImageContentResource} />
+                        </a>
+                    </template>
+                    <div class="slds-p-vertical_small" style="font-size: 10.4px;">
+                        
+                            <p class="slds-truncate" title={tempValue.value.MainettiModelCode}>
+                                <b>{tempValue.value.MainettiModelCode}({prod.productfamily})</b>
+                            </p>
+                            <p class="slds-truncate" style="color: dimgrey; height: 15px;" title={tempValue.value.proddescription}>
+                                {tempValue.value.proddescription}
+                            </p>
+                            <p class="slds-truncate" style="color: dimgrey; height: 15px;" title={tempValue.value.proddescription2}>
+                                {tempValue.value.proddescription2}
+                            </p>
+                            <template if:true={MCare}>
+                                <p class="slds-truncate" style="color:dimgrey;height:15px;" title={tempValue.value.proddescription3}>{tempValue.value.proddescription3}</p>
+                            </template>
+                        
+                                <p class="slds-truncate" title={tempValue.value.custRefModel}>
+                                    <b>{custModelLabel} </b>{tempValue.value.custRefModel}
+                                </p>
+                                <template if:true={tempValue.value.showPrice}>
+                                    <template if:true={proPricedata}>
+                                        <p class="price slds-truncate">
+                                            <b>{Price100}</b>
+                                            <template if:true={currencyType}>
+          <lightning-formatted-number value={tempValue.value.proPrice} style="currency" currency-code={tempValue.value.currencyType}></lightning-formatted-number>
+                                            </template>
+                                            <template if:false={currencyType}>
+                                                <lightning-formatted-number value={tempValue.value.proPrice}></lightning-formatted-number>
+                                            </template>
+                                        </p>                                
+                                    </template>
+                                    <template if:true={proPriceBy1000data2nd}>
+                                        <p class="price slds-truncate">
+                                            <b>{Price1000} </b>
+                                            <template if:true={currencyType}>
+                                                <lightning-formatted-number value={tempValue.value.proPriceBy1000} style="currency"
+                                                currency-code={tempValue.value.currencyType} ></lightning-formatted-number>
+                                        </template>
+                                        <template if:false={currencyType}>
+                                            <lightning-formatted-number value={tempValue.value.proPriceBy1000}></lightning-formatted-number>
+                                        </template>
+                                        </p>
+
+                                    </template>
+                                    <template if:true={uomPrice}>
+                                        <p class="price slds-truncate">
+                                            <b>{UOMPrice}</b>
+                                            <template if:true={currencyType}>
+                                                <lightning-formatted-number
+                                                    value={tempValue.value.uomPrice}
+                                                    style="currency"
+                                                    currency-code={tempValue.value.currencyType}
+                                                ></lightning-formatted-number>
+                                            </template>
+                                            <template if:false={currencyType}>
+                                                <lightning-formatted-number value={tempValue.value.uomPrice}></lightning-formatted-number>
+                                            </template>
+                                        </p>
+                                    </template>
+                                    
+                                </template>
+                                <template if:true={tempValue.value.fullboxQty}>
+                                    <p class="slds-truncate" title={tempValue.value.boxquantity}>
+                                        <b>{BoxQuantity}</b> {tempValue.value.boxquantity}
+                                    </p>
+                                </template>
+                    </div>
+                    <div class="slds-grid slds-m-bottom_x-small">
+                        <template if:true={tempValue.noVarProd}>
+                            <div class="slds-col slds-size_1-of-1">
+                                <button class="slds-button slds-button_destructive slds-button_red slds-button_red" name={ind} data-record="" onclick={handleSizerProduct}>SELECT</button>
+                            </div>
+                        </template>
+                        <template if:false={tempValue.noVarProd}>
+                            <div class="slds-col">
+                                <div class="slds-box slds-box_xx-small slds-form-element__control slds-grow slds-m-right_xx-small slds-m-top_xxx-small">
+                                    <lightning-formatted-text value={tempValue.value.UomOrder}></lightning-formatted-text>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-5 slds-m-right_xx-small">
+                                <!-- <div key={tempValue.prodid}>
+                                    <lightning-input data-index={key} data-field-api-name="quantity"  type="Number" value={tempValue.quantity} placeholder="Qty" onchange={handleQtyChange} disabled={tempValue.value.addedToCart} data-id={tempValue.value.prodid}> </lightning-input>
+                                </div> -->
+                                <template if:true={HangerBusiness}>
+                                    <!-- <div class="color selected-color-icon">
+                                        <ul>
+                                            <li>
+                                                <a class={tempValue.key} id={tempValue.key} title={tempValue.key} data-color={tempValue.key} name={ind} onclick={colorChange}></a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                    <div class="color selected-color-icon">
+                                        <ul>
+                                            <li><a class={tempValue.key} id={tempValue.key} title={tempValue.key} href="" name={ind} onclick={colorChange}></a></li>
+                                        </ul>
+                                    </div>
+                                </template>
+                                <template if:true={MCare}>
+                                    <div class="color selected-color-icon">
+                                        
+                                        <ul>
+                                            <li>
+                                                <a class={tempValue.key} id={tempValue.key} title={tempValue.key} name={ind} onclick={colorChange}></a>
+                                            </li>
+                                        </ul>
+                                    </div>  
+                                </template>
+                                
+                                <lightning-input class="hide-label input-qty" data-index={key} data-field-api-name="quantity"  type="Number" value={tempValue.quantity} placeholder="Qty" onchange={handleQtyChange} disabled={tempValue.value.addedToCart}  data-id={tempValue.value.prodid}> </lightning-input>
+                            </div>
+                               
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <button  class={addcartbuttoncss} data-record={key} name={ind} onclick={handleAddToCart} disabled={tempValue.value.addedToCart} >ADD TO CART</button>
+                            </div>
+                        </template>
+                    </div>
+                    <template if:true={HangerBusiness}>
+                        <template if:true={tempValue.noVarProd}>
+                        </template>
+                        <template if:false={tempValue.noVarProd}>
+                            <div>
+                                <template for:each={prod.tempMap} for:item="tempValue" for:index="key">
+                                    <div key={tempValue.key} class={tempValue.key}>
+                                        <div class="color">
+                                            <ul>
+                                                <li>
+                                                    <a class={tempValue.key} id={tempValue.key} title={tempValue.key} href="" data-name={key} onclick={colorChange}></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            </template>
+                    </template>
+                    <template if:true={MCare}>
+                        <template if:true={tempValue.noVarProd}>
+                           
+                        </template>
+                        <template if:false={tempValue.noVarProd}>
+                            <div>
+                                <template for:each={prod.tempMap} for:item="tempValue" for:index="key">
+                                    <div key={tempValue.key} class={tempValue.key}>
+                                        <div class="color">
+                                            {tempValue.key}
+                                            <ul>
+                                                <li>
+                                                    <a class={tempValue.key} id={tempValue.key} title={tempValue.key} href="" data-name={key} onclick={colorChange}></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            </template>
+                    </template>
+                    </div>
+                    <br/>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                </template>
+            </template>
+        </template>
+        
+    </div>
+   
+</div>  
+</template>
+</template>
+</template>
+
+<!--Labels &amp;Tickets-->
+<template if:false={quickview}>
+<template if:true={Labelsamp}>
+    <!-- <div class="slds-grid_vertical-align-end">                         -->
+    <div class="products-grid slds-grid slds-wrap">
+        <template for:each={productlistfromparent} for:item="prod" for:index="ind">
+            <template for:each={prod.tempMap} for:item="tempValue" for:index="key">
+                <template if:true={tempValue.selectedColorKey}>
+                <div key={prddsod}>
+                    <div class="slds-col slds-float_left slds-text-align_center"  style="width:300px;"> 
+                        <div class="product-item">                                        
+                           <div class={addedToCartcls}>
+                            <template if:true={tempValue.value.addedToCart}>
+                                <div class="icon-sale-label inCart_font-size sale-right Added">Added</div>
+                            </template>
+                            <template if:true={tempValue.value.addedAsLabel}>
+                                <div class="icon-sale-label inCart_font-size sale-right Added">Pending</div>
+                            </template>
+                    <div class="product-thumbnail">  
+                        <div class="btn-quickview">
+                            <span><lightning-button label="Quick View" size="large" name={ind} icon-name="utility:search" onclick={quickviewcmp} alternative-text={approvedLabel} style="pointer-events: all;"></lightning-button></span>
+                    </div>
+                    </div>
+                    <div class="pro-box-info">
+                    <template if:true={tempValue.value.proImgURL}>
+                         <a class="product-item-photo"  name={tempValue.value.priceBookId}> 
+                             <img class="product-item-photo" src={tempValue.value.proImgURL} alt="image" name={ind} onclick={quickviewcmp} /> 
+                            </a>
+                    </template>
+                    <template if:false={tempValue.value.proImgURL}>
+                        <a class="product-item-photo no-item-img" style={noImageContentResource}>
+                        <!-- <img src={noImageContentResource} class="product-item-photo no-item-img"></img> -->
+                        </a>
+                    </template>
+                    <div class="slds-p-vertical_small" style="font-size: 10.4px;">
+                        <p class="slds-truncate" title={prod.Name}>
+                            <b>{prod.Name}({prod.productfamily})</b>
+                        </p> 
+                        <p class="slds-truncate" style="color:dimgrey;height:15px;" title={tempValue.value.proddescription}>{tempValue.value.proddescription}</p>
+                                                <p class="slds-truncate" style="color:dimgrey;height:15px;" title={tempValue.value.proddescription2}>{tempValue.value.proddescription2}</p>
+                                                <p class="slds-truncate" title={tempValue.value.custRefModel}><b>{custModelLabel} </b>{tempValue.value.custRefModel}</p>  
+                   
+                    <template if:true={tempValue.value.fullboxQty}>
+                        <p class="slds-truncate" title={tempValue.value.boxquantity}><b>{BoxQuantity}</b>{tempValue.value.boxquantity}</p>
+
+                    </template>
+                    <template if:true={tempValue.value.showPrice}>
+                        <template if:true={proPricedata}>
+                            <p class="price slds-truncate" >
+                                <b>{Price100}</b>   
+                                <template if:true={currency}>
+                                    <lightning-formatted-number
+                                    value={tempValue.value.proPrice}
+                                    style="currency"
+                                    currency-code={tempValue.value.currencyType}
+                                ></lightning-formatted-number>
+                                </template>
+                                <template if:false={currencyType}>
+                                    <lightning-formatted-number value={tempValue.value.proPrice}></lightning-formatted-number>
+                                </template>
+                            </p>
+
+                        </template>
+                        <template if:true={proPriceBy1000data2nd}>
+                            <p class="price slds-truncate">
+                                <b>{Price1000} </b>
+                                <template if:true={currencyType}>
+                                    <lightning-formatted-number value={tempValue.value.proPriceBy1000} style="currency"
+                                    currency-code={tempValue.value.currencyType} ></lightning-formatted-number>
+                            </template>
+                            <template if:false={currencyType}>
+                                <lightning-formatted-number value={tempValue.value.proPriceBy1000}></lightning-formatted-number>
+                            </template>
+                            </p>
+
+                        </template>
+                        <template if:true={uomPrice}>
+                            <p class="price slds-truncate">
+                                <b>{UOMPrice}</b>
+                                <template if:true={currencyType}>
+                                    <lightning-formatted-number
+                                        value={tempValue.value.uomPrice}
+                                        style="currency"
+                                        currency-code={tempValue.value.currencyType}
+                                    ></lightning-formatted-number>
+                                </template>
+                                <template if:false={currencyType}>
+                                    <lightning-formatted-number value={tempValue.value.uomPrice}></lightning-formatted-number>
+                                </template>
+                            </p>
+                        </template>
+                    </template>
+                </div>
+                    <template if:false={tempValue.noVarProd}>
+                        <div class="slds-grid slds-m-bottom_x-small">
+                            <div class="slds-col">
+                                <div class="slds-box slds-box_xx-small slds-form-element__control slds-grow slds-m-right_xx-small slds-m-top_xxx-small">
+                                    <lightning-formatted-text value={tempValue.value.UomOrder}></lightning-formatted-text>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-5 slds-m-right_xx-small">
+                                <div key={tempValue.Id}>
+                                    <lightning-input data-index={key} data-field-api-name="Quantity__c"  type="Number" value={tempValue.quantity} placeholder="Qty" onchange={handleQtyChange} disabled={tempValue.value.addedToCart}  data-id={tempValue.value.prodid}> </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3"> 
+                                <button  class={addcartbuttoncss2} data-record={key} name={ind} onclick={handleAddToCart} disabled={tempValue.value.addedToCart} >ADD TO CART</button>
+   
+                            </div>
+                        </div>
+                          <!-- <button class="slds-button slds-button_destructive slds-button_red slds-m-bottom_x-small" onclick={selectLabel} name={ind} >{labelValue} </button> -->
+            
+                    </template>
+                    <template if:true={tempValue.noVarProd}>
+              
+                        <button class="slds-button slds-button_destructive slds-button_red slds-m-bottom_x-small" onclick={selectLabel} name={ind}>{labelValue}</button>
+                     </template>
+                    </div>
+                    <br/>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </template>
+            </template>
+        </template>
+    </div>
+    <!-- </div>   -->
+   </template>
+  </template>
+</template>
+
+
+
+<template if:true={quickview}>
+    <template if:true={careLabelOrder}>
+    <template if:true={LabelQuickview}>
+    <template if:true={Labelsamp}>
+    <c-care-label-order-lwc pagination={displayPagination} view-quick={quickview} selected-tab={selectedTabs} selectedproduct={quickviewedProduct} selectedcustomerid={selectedCustomeId} searchedcurrency={searchedCurrencys} selectedcurrency={selectedCurrencys} onseture={handleset} oncarelabelselecteddatalist={handlecarelabelselecteddatalist}  loadedcaredata={loadedcareLabelSelectedDataList}> </c-care-label-order-lwc>
+    </template>
+    </template>
+    </template></template>
+
+<template if:true={quickview}>
+    <template if:false={careLabelOrder}>
+    <!-- <template if:false={Labelsamp}>
+        <template if:false={LabelQuickview}> -->
+           <c-quick-view-product-lwc label-quickview={LabelQuickview} selected-tab={selectedTabs} complete-wrap={parentData} quickviewprod={quickview}  selectcustomeid={selectedCustomeId} quickviewed-product={quickviewedProduct} onclosevent={closeQuickView}></c-quick-view-product-lwc>
+        <!-- </template>
+    </template> -->
+</template>
+</template>
+
+<template if:true={sizerhanger}>
+    <c-hanger-sizer-cmp-lwc is-sizer-quickview="false" sizer-index={sizerIndex} searched-currency={searchedCurrencys} selected-tab={selectedTabs} flag-family={flagFamily} display-pagination={displayPagination}  catalog-vertical={catalogVertical} retailer-i-d={retailerCodes} complete-wrap={parentData} hangersizer={sizerhanger} selected-company={selectedCompany} selected-currency={selectedCurrencys} selectcustomeid={selectedCustomeId} hanger-list-detail={hangerListDetail} onseture={handleset} oncancelevent={cancleQuickView}></c-hanger-sizer-cmp-lwc>
+</template>
+
+<template if:true={quickviewSizer}>
+    <c-hanger-sizer-cmp-lwc quickview-sizer={quickviewSizer} is-sizer-quickview="true"  sizer-index={sizerIndex}  selected-tab={selectedTabs} flag-family={flagFamily} display-pagination={displayPagination} catalog-vertical={catalogVertical}  retailer-i-d={retailerCodes} complete-wrap={parentData} hangersizer={sizerhanger} selected-company={selectedCompany} selected-currency={selectedCurrencys} selectcustomeid={selectedCustomeId}  hanger-list-detail={hangerListDetail} oncancelevent={cancleQuickView}></c-hanger-sizer-cmp-lwc>
+</template>
+   
+</template>

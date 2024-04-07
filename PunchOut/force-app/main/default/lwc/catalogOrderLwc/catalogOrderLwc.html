@@ -1,0 +1,432 @@
+<template>
+   
+       
+    <!--Tabset Start -->
+       
+        <template if:false={isShipcmp}>
+    <!-- <div> -->
+        <!-- <lightning-card> -->
+        <template if:true={parentCmp}>
+            <!-- <lightning-card> -->
+               <div class="tabs">
+                <!-- <lightning-card> -->
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" small-device-size="12"  medium-device-size="9" >
+                            
+                                 <lightning-tabset active-tab-value={selectedTab} class="my-tabset"  style="font-size: 10px;">
+                
+                                <lightning-tab    label={hangersAndAccessoriesLabel}  value="Hanger Business" onactive={selectTab} icon-name="utility:data_model" >
+                                </lightning-tab>
+                    
+                    
+                                <lightning-tab    label={LABELSANDTICKETS} id="LabelsTickets" value={LabelsTickets} onactive={selectTab} icon-name="utility:labels">
+                                </lightning-tab>
+                                       
+                                <lightning-tab    label={FLEXIBLEPACKAGING} id="FlexiblePackaging"  value={Flexiblepackaging} onactive={selectTab} icon-name="utility:textarea">
+                                </lightning-tab>
+                                                           
+                                <lightning-tab    label={EASANDRFID} id="INTELLIGENTSOLUTIONS" value={EasAndRfid} onactive={selectTab} icon-name="utility:summary">
+                                </lightning-tab>
+                    
+                                <lightning-tab    label={STRUCTURALPACKAGING} value={StructuralPackaging} onactive={selectTab} icon-name="utility:case">     
+                                </lightning-tab>
+                    
+                                <lightning-tab    label={MCARE}  onactive={selectTab} value={MCare} icon-name="utility:wellness"> 
+                                </lightning-tab> 
+                    
+                            </lightning-tabset>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="3" >
+                             
+                                <template if:true={parentCmp}>
+                                    <template if:true={viewbulk}>
+                                        <lightning-button  class="slds-m-left_small" label="ADD TO CART" variant="destructive-text" onclick={getBulkData}  icon-name="utility:add" disabled={disableBulkAdd} size="x-small">
+                                    </lightning-button>
+                                    </template>&nbsp;&nbsp;
+                                    <lightning-button  label="VIEW CART" variant="destructive-text" onclick={handleButtonViewClick}  icon-name="utility:cart" size="x-small" >
+                                       
+                                </lightning-button>
+                                </template>
+                            
+                        </lightning-layout-item>
+                        
+                    </lightning-layout>
+                <!-- </lightning-card> -->
+            </div>
+                <!-- lightning-tabset -->
+         
+           
+        <!-- </lightning-card> -->
+    
+        </template>
+    <!-- </lightning-card> -->
+    <!-- </div> -->
+    </template>
+    <template if:true={isShipcmp}>
+        <!-- <c-catalog-vertical-lwc  callchild-forbulkdatas={callchildforbulkdata} parent-data={sendcompleteWrap}></c-catalog-vertical-lwc> -->
+        <c-catalog-shipping-cmp-lwc catalog-order={parentCmp}  selected-retailer-name={selectedRetailer} selected-retailer={SelectedRetailercode} complete-wrap={completeWrap} searched-currency={searchedCurrency} selected-currency={selectedCurrency} selected-tab={selectedTab}></c-catalog-shipping-cmp-lwc>
+    </template>
+    
+    
+    
+    
+    <template if:true={hangersAndAccessoriestrue}>
+    
+        <template if:true={Countss}>
+            <div class="slds-grid slds-p-bottom_small slds-p-top_none" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+                <div style="background-color: #f98f8b;width:100%;">
+                    <center><span>There are products added in the CART, please review if necessary.</span></center>
+                </div>
+            </div>
+        </template>
+        <template if:true={CatalogUIMessage}>
+            <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+                <div style="background-color: #f98f8b;width:100%;">
+                    <center><span>{CatalogUIMessage}</span></center>
+                </div>
+            </div>
+        </template>
+
+
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+            <div class="slds-m-left_small slds-text-align_center"><div class="slds-col slds-m-right_medium">
+                <h2 class="tab-header">
+                    <b>Retailer Name :</b> {selectedRetailer}
+                </h2>
+            </div></div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2   " >
+            <div class="slds-m-left_small  slds-text-align_center"><template if:true={cartFlag}>
+                <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+          </template></div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+            <div class="slds-m-left_small slds-text-align_center"><template if:true={cartFlag}>
+                <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+          </template></div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+            <div class="slds-m-left_small">
+            <div class="slds-text-align_center"><template if:true={flagFamily}>
+                
+                    <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+                
+            </template></div></div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+            <div class="slds-text-align_center">
+                <div class="slds-m-top_large">
+                    <!-- <lightning-button type="submit" name="submit" label="SEARCH" variant="destructive" onclick={Search}> </lightning-button> -->
+                 <button class="slds-button slds-button_destructive custom-red-button"  type="button" onclick={Search}><span>SEARCH</span></button>
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <template if:true={onsearch}>
+    <c-catalog-vertical-lwc selected-company={selectedCompany} parent-data={completeWrap.productList} selected-tabs={selectedTab} selected-custome-id={selectcustomeid} searched-currencys={searchedCurrency} selected-currencys={selectedCurrency} retailer-codes={SelectedRetailercode}></c-catalog-vertical-lwc>
+    </template>
+    </template>
+    
+    <template if:true={LabelsTicketstrue}>
+        <template if:true={Countss}>
+            <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <!--center><span>There are products added in the CART, please review if necessary.</span></center-->
+                </div>
+            </div>
+        </template>
+        <template if:true={CatalogUIMessageforLabels}>
+            <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <center><span>{CatalogUIMessageforLabels}</span></center>
+                </div>
+            </div>
+        </template>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2.5" >
+                <div class="slds-m-left_small slds-text-align_center"><div class="slds-col slds-m-right_medium">
+                    <h2 class="tab-header">
+                        <b>Retailer Name :</b> {selectedRetailer}
+                    </h2>
+                </div></div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2   " >
+                <div class="slds-m-left_small  slds-text-align_center"><template if:true={cartFlag}>
+                    <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+                </template>
+                <template if:false={cartFlag}>
+                    <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+              </template></div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+                <div class="slds-m-left_small slds-text-align_center"><template if:true={cartFlag}>
+                    <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+                </template>
+                <template if:false={cartFlag}>
+                    <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+              </template></div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+                <div class="slds-m-left_small">
+                <div class="slds-text-align_center"><template if:true={flagFamily}>
+                    
+                        <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+                    
+                </template></div></div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="2" >
+                <div class="slds-text-align_center">
+                    <div class="slds-m-top_large">
+                        <!-- <lightning-button type="submit" name="submit" label="SEARCH" variant="destructive" onclick={Search}> </lightning-button> -->
+                     <button class="slds-button slds-button_destructive custom-red-button"  type="button" onclick={Search}><span>SEARCH</span></button>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    
+    <template if:true={onsearchLabel}>
+        
+        <c-catalog-vertical-lwc parent-data={completeWrap.productList} selected-tabs={selectedTab}  selected-custome-id={selectcustomeid} searched-currencys={searchedCurrency} selected-currencys={selectedCurrency} retailer-codes={SelectedRetailercode} getselected-tabid={sendSelectedTab}></c-catalog-vertical-lwc>
+    
+    </template>
+    </template>
+    
+    <template if:true={Flexiblepackagingtrue}>
+         <template if:true={Count}>
+        <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+            <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                <!--center><span>There are products added in the CART, please review if necessary.</span></center-->
+            </div>
+        </div>
+    </template>
+    <template if:true={CatalogUIMessage}>
+        <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+            <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                <center><span>{CatalogUIMessage}</span></center>
+            </div>
+        </div>
+    </template>
+    <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0">
+        <div class="slds-col slds-m-right_medium" style="width:26%;">
+            <h2 class="tab-header">
+                <b>Retailer Name :</b> {selectedRetailer}
+            </h2>
+        </div>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        <template if:true={cartFlag}>
+            <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+        </template>
+        <template if:false={cartFlag}>
+            <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+      </template>
+    </div>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        <template if:true={cartFlag}>
+            <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+        </template>
+        <template if:false={cartFlag}>
+            <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+      </template>
+    </div>
+    <template if:true={flagFamily}>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+    </div>
+    </template>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+    
+    <lightning-input for="select1"  type="search" label="keywords" value={searchKeyword}  onchange={keywordchange}> </lightning-input>
+    </div>
+    <div class="slds-col slds-m-right_medium slds-m-top_large" style="min-width:60px;">
+    <button class="slds-button slds-button_destructive slds-button_red" type="button" onclick={Search}><span>SEARCH</span></button>
+    <!-- <lightning-button label={searchLabel} variant="destructive" onclick={Search}></lightning-button> -->
+    </div>
+    </div>
+    <template if:true={onsearch}>
+    <!-- <c-catalog-vertical-lwc parent-data={completeWrap.productList} selected-tabs={selectedTab} selected-custome-id={selectcustomeid} searched-currencys={searchedCurrency} selected-currencys={selectedCurrency} retailer-codes={retailerCode}></c-catalog-vertical-lwc> -->
+    </template>
+    </template>
+    <template if:true={INTELLIGENTSOLUTIONStrue}>
+        <template if:true={Count}>
+            <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <!--center><span>There are products added in the CART, please review if necessary.</span></center-->
+                </div>
+            </div>
+        </template>
+        <template if:true={CatalogUIMessage}>
+            <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <center><span>{CatalogUIMessage}</span></center>
+                </div>
+            </div>
+        </template>
+        <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0">
+            <div class="slds-col slds-m-right_medium" style="width:26%;">
+                <h2 class="tab-header">
+                    <b>Retailer Name :</b> {selectedRetailer}
+                </h2>
+            </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+          </template>
+        </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+          </template>
+        </div>
+        <template if:true={flagFamily}>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+        </div>
+    </template>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        
+        <lightning-input for="select1"  type="search" label="keywords" value={searchKeyword}  onchange={keywordchange}> </lightning-input>
+    </div>
+    <div class="slds-col slds-m-right_medium slds-m-top_large" style="min-width:60px;">
+        <button class="slds-button slds-button_destructive slds-button_red" type="button" onclick={Search}><span>SEARCH</span></button>
+        <!-- <lightning-button label={searchLabel} variant="destructive" onclick={Search}></lightning-button> -->
+    </div>
+    </div>
+    <template if:true={onsearch}>
+        <!-- <c-catalog-vertical-lwc parent-data={completeWrap.productList} selected-tabs={selectedTab} selected-custome-id={selectcustomeid} searched-currencys={searchedCurrency} selected-currencys={selectedCurrency} retailer-codes={SelectedRetailercode} getselected-tabid={sendSelectedTab}></c-catalog-vertical-lwc> -->
+    </template>
+    </template>
+    
+    <template if:true={TLAtrue}>
+        <template if:true={Count}>
+            <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <!--center><span>There are products added in the CART, please review if necessary.</span></center-->
+                </div>
+            </div>
+        </template>
+        <template if:true={CatalogUIMessage}>
+            <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <center><span>{CatalogUIMessage}</span></center>
+                </div>
+            </div>
+        </template>
+        <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0">
+            <div class="slds-col slds-m-right_medium" style="width:26%;">
+                <h2 class="tab-header">
+                    <b>Retailer Name :</b> {selectedRetailer}
+                </h2>
+            </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+          </template>
+        </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+          </template>
+        </div>
+        <template if:true={flagFamily}>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+        </div>
+    </template>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        
+        <lightning-input for="select1"  type="search" label="keywords" value={searchKeyword}  onchange={keywordchange}> </lightning-input>
+    </div>
+    <div class="slds-col slds-m-right_medium slds-m-top_large" style="min-width:60px;">
+        <button class="slds-button slds-button_destructive slds-button_red" type="button" onclick={Search}><span>SEARCH</span></button>
+        <!-- <lightning-button label={searchLabel} variant="destructive" onclick={Search}></lightning-button> -->
+    </div>
+    </div>
+    <template if:true={onsearch}>
+        <!-- <c-catalog-vertical-lwc parent-data={completeWrap.productList} selected-tabs={selectedTab} selected-custome-id={selectcustomeid} searched-currencys={searchedCurrency} selected-currencys={selectedCurrency} retailer-codes={SelectedRetailercode} getselected-tabid={sendSelectedTab}></c-catalog-vertical-lwc> -->
+    </template>
+    </template>
+    <template if:true={MCaretrue}>
+        <template if:true={Count}>
+            <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0;background-color: #f98f8b;width:100%;">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                </div>
+            </div>
+        </template>
+        <template if:true={CatalogUIMessage}>
+            <div class="slds-grid slds-p-top_none" style="border-bottom:2px solid #e0e0e0">
+                <div style="background-color: #f98f8b;width:100%;font-size:20px;">
+                    <center><span>{CatalogUIMessage}</span></center>
+                </div>
+            </div>
+        </template>
+        <div class="slds-grid slds-p-bottom_small" style="border-bottom:2px solid #e0e0e0">
+            <div class="slds-col slds-m-right_medium" style="width:26%;">
+                <h2 class="tab-header">
+                    <b>Retailer Name :</b> {selectedRetailer}
+                </h2>
+            </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCompany} disabled="true" label={labelOrderToCompany}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCompany} label="Order To Company" options={orderCompanyOptions} onchange={OrderToCompany}></lightning-combobox>
+          </template>
+        </div>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <template if:true={cartFlag}>
+                <lightning-input value={selectedCurrency}  label={labelOrderToCurency}></lightning-input>
+            </template>
+            <template if:false={cartFlag}>
+                <lightning-combobox name="select1" value={selectedCurrency} label="Preferred Currency" options={selectedCurrencyOptions} onchange={preferredCurrency}></lightning-combobox>
+          </template>
+        </div>
+        <template if:true={flagFamily}>
+        <div class="slds-col slds-m-right_medium" style="width:16%;">
+            <lightning-combobox name="select1" value={selectedFamily} label=" Select Family" options={selectedFamilyOptions} onchange={Family}></lightning-combobox>
+        </div>
+    </template>
+    <div class="slds-col slds-m-right_medium" style="width:16%;">
+        
+        <lightning-input for="select1"  type="search" label="keywords" value={searchKeyword}  onchange={keywordchange}> </lightning-input>
+    </div>
+    <div class="slds-col slds-m-right_medium slds-m-top_large" style="min-width:60px;">
+        <button class="slds-button slds-button_destructive slds-button_red" type="button" onclick={Search}><span>SEARCH</span></button>
+        <!-- <lightning-button label={searchLabel} variant="destructive" onclick={Search}></lightning-button> -->
+    </div>
+    </div>
+    <template if:true={onsearch}>
+    </template>
+    </template>
+    <template if:true={displayPagination}>
+        <div class="slds-text-align_center pagination-area">
+            <c-pagination-component-for-inventory-lwc page={page} pages={pages} total={total} onpagechange={handlePageChange}></c-pagination-component-for-inventory-lwc>
+        </div>
+    </template>
+    
+    <template if:true={logo}>
+        <c-logo-generator-lwc img={SelectedImage} size={Selectedsize} selected-fabric-array={SelectedFabricArray} country={SelectedCountry}
+            selected-inst-image={SelectedInstImage} ex-care-ins={ExCareIns} free-text={FreeText} dev-country={DevCountry}
+            dev-size={DevSize} dev-fabric={DevFabric} dev-care={DevCare} dev-excare={DevExcare} devlogo={Devlogo} dev-free={DevFree}
+        ></c-logo-generator-lwc>
+    </template>
+    </template>
